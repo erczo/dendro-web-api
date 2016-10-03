@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "mysql": "mysql://root:R0otD3v3l0per@localhost:3306/dendro",
+  "public": "../dist/public/",
+  "auth": {
+    "idField": "id",
+    "token": {
+      "secret": "ThYncCxLbjhin7YZBtZgda7nm0KSeT4rM0UsvpCnJXPA6sTVq6NKvsDoHjzyjkMKnB4gKDqsUx8Gg7mYsRbV9Q=="
+    },
+    "local": {}
+  }
+}
