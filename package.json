@@ -36,6 +36,7 @@
     "feathers-rest": "^1.5.0",
     "feathers-sequelize": "^1.3.3",
     "feathers-socketio": "^1.4.1",
+    "influx": "^4.2.2",
     "mysql": "^2.11.1",
     "passport": "^0.3.2",
     "pug": "^2.0.0-beta6",

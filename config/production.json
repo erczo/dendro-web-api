@@ -1,6 +1,7 @@
 {
   "host": "feathers-test-app.feathersjs.com",
   "port": 80,
+  "influx": "DATABASE_URL",
   "mysql": "DATABASE_URL",
   "public": "../dist/public/",
   "auth": {

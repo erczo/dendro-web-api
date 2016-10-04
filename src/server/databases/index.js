@@ -1,5 +1,5 @@
 const metadata = require('./metadata')
-// const timeseries = require('./timeseries')
+const timeseries = require('./timeseries')
 
 module.exports = (function () {
   return function () {
@@ -8,6 +8,6 @@ module.exports = (function () {
     app.set('databases', {})
 
     app.configure(metadata)
-    // app.configure(timeseries)
+    app.configure(timeseries)
   }
 })()

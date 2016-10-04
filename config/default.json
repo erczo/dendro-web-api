@@ -1,7 +1,8 @@
 {
   "host": "localhost",
   "port": 3030,
-  "mysql": "mysql://root:R0otD3v3l0per@localhost:3306/dendro",
+  "influx": "http://192.168.1.111:8086/dendro_oak",
+  "mysql": "mysql://root:R0otD3v3l0per@localhost:3306/dendro_meta",
   "public": "../dist/public/",
   "auth": {
     "idField": "id",
