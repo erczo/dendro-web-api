@@ -8,18 +8,23 @@
  * @module server/main
  */
 
+// TODO: Code and test all CRUD methods!
+// TODO: Define hooks to prevent updating!
+// TODO: Ensure that we have indexes for all queries
+
 const path = require('path');
+const feathers = require('feathers');
 const compress = require('compression');
 const cors = require('cors');
-const feathers = require('feathers');
 const configuration = require('feathers-configuration');
+const bodyParser = require('body-parser');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
-const bodyParser = require('body-parser');
 const socketio = require('feathers-socketio');
-const middleware = require('./middleware');
-const services = require('./services');
 const databases = require('./databases');
+const schemas = require('./schemas');
+const services = require('./services');
+const middleware = require('./middleware');
 
 const app = feathers();
 
@@ -31,9 +36,13 @@ const log = console;
 app.configure(configuration(path.join(__dirname, '../..')));
 
 // Feathers setup
-app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(databases).configure(services).configure(middleware);
+app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(databases).configure(schemas).configure(services).configure(middleware);
 
-const port = app.get('port');
-const server = app.listen(port);
+Promise.resolve(app.get('middlewareReady')).then(() => {
+  const port = app.get('port');
+  const server = app.listen(port);
 
-server.on('listening', () => log.info('Feathers application started on %s:%s', app.get('host'), port));
+  server.once('listening', () => log.info('Feathers application started on %s:%s', app.get('host'), port));
+}).catch(err => {
+  log.error(err);
+});

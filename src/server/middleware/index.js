@@ -10,8 +10,11 @@ module.exports = (function () {
     // handling middleware should go last.
     const app = this
 
-    app.use(notFound())
-    app.use(logger(app))
-    app.use(handler())
+    app.set('middlewareReady',
+      Promise.resolve(app.get('servicesReady')).then(() => {
+        app.use(notFound())
+        app.use(logger(app))
+        app.use(handler())
+      }))
   }
 })()

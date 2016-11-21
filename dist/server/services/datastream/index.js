@@ -1,26 +1,26 @@
 'use strict';
 
-const service = require('feathers-sequelize');
+const service = require('feathers-mongodb');
 const hooks = require('./hooks');
 
 module.exports = function () {
   return function () {
     const app = this;
+    const databases = app.get('databases');
 
-    const options = {
-      Model: app.get('databases').metadata.models.Datastream,
-      paginate: {
-        default: 20,
-        max: 2000
-      }
-    };
+    if (databases.mongodb && databases.mongodb.metadata) {
+      app.set('serviceReady', Promise.resolve(databases.mongodb.metadata.db).then(db => {
+        app.use('/datastreams', service({
+          Model: db.collection('datastreams'),
+          paginate: databases.mongodb.metadata.paginate
+        }));
 
-    app.use('/datastreams', service(options));
+        // Get the wrapped service object, bind hooks
+        const datastreamService = app.service('/datastreams');
 
-    // Get the wrapped service object, bind hooks
-    const datastreamService = app.service('/datastreams');
-
-    datastreamService.before(hooks.before);
-    datastreamService.after(hooks.after);
+        datastreamService.before(hooks.before);
+        datastreamService.after(hooks.after);
+      }));
+    }
   };
 }();

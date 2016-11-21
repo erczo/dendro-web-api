@@ -1,15 +1,12 @@
 'use strict';
 
-const metadata = require('./metadata');
-const timeseries = require('./timeseries');
-
 module.exports = function () {
   return function () {
     const app = this;
+    const databases = app.get('databases');
 
-    app.set('databases', {});
-
-    app.configure(metadata);
-    app.configure(timeseries);
+    if (databases.influx) app.configure(require('./influx'));
+    if (databases.mongodb) app.configure(require('./mongodb'));
+    if (databases.mysql) app.configure(require('./mysql'));
   };
 }();
