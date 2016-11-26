@@ -1,5 +1,5 @@
 const globalHooks = require('../../../hooks')
-const hooks = require('feathers-hooks')
+// const hooks = require('feathers-hooks')
 const {errors} = require('feathers-errors')
 
 exports.before = {
@@ -10,21 +10,19 @@ exports.before = {
 
     (hook) => {
       const query = hook.params.query
-      if (!query.datastream_id) return
-
-      return hook.app.service('/datastreams').get(query.datastream_id).then(datastream => {
-        hook.params.datastream = datastream
-        return hook
-      })
+      if (query.datastream_id) {
+        return hook.app.service('/datastreams').get(query.datastream_id).then(datastream => {
+          hook.params.datastream = datastream
+          return hook
+        })
+      }
     },
 
     (hook) => {
       const datastream = hook.params.datastream
       if (!(typeof datastream === 'object')) throw new errors.BadRequest('Expected datastream')
       if (!Array.isArray(datastream.datapoints_config)) throw new errors.GeneralError('Missing datapoints config')
-    },
-
-    hooks.removeQuery('datastream_id')
+    }
   ]
 
   // get: [],

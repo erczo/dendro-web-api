@@ -151,7 +151,7 @@ exports.splitQuery = (field, sep, op, max) => {
     const value = hook.params.query[field];
     if (typeof value !== 'string') return;
 
-    const items = value.split(',');
+    const items = value.split(sep);
     if (Number.isInteger(max) && items.length > max) items.length = max; // Truncate
     if (items.length < 2) {} else if (typeof op === 'string') hook.params.query[field] = { [op]: items };else hook.params.query[field] = items;
   };

@@ -16,10 +16,15 @@ class Service {
         datastream: datastream,
         query: params.query
       }).then(res => {
-        return {
-          datastream_id: datastream._id,
-          datapoints: res
-        };
+        const obj = {};
+
+        // Include lightweight datastream metadata
+        obj._id = datastream._id;
+        if (datastream.attributes) obj.attributes = datastream.attributes;
+        if (datastream.tags) obj.tags = datastream.tags;
+        obj.datapoints = res;
+
+        return obj;
       });
     });
 

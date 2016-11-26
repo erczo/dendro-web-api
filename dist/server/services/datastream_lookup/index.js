@@ -17,8 +17,10 @@ class Service {
       $sort: { _id: 1 }
     };
 
+    // Only allow specific query fields for lookup
     if (params.query._id) query._id = params.query._id;
     if (params.query.tags) query.tags = params.query.tags;
+    if (params.query.station_id) query.station_id = params.query.station_id;
 
     return this.app.service('/datastreams').find({ query: query }).then(res => {
       return res.data;
