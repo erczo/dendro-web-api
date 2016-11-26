@@ -36,5 +36,16 @@
   },
   "host": "localhost",
   "port": 3030,
-  "public": "../dist/public/"
+  "public": "../dist/public/",
+  "services": {
+    "datapoint": {
+      "paginate": {
+        "default": 20,
+        "max": 2000
+      }
+    },
+    "datastream_lookup": {
+      "limit": 100
+    }
+  }
 }

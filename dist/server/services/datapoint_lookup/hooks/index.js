@@ -17,7 +17,7 @@ exports.before = {
     return hook.app.service('/datastreams/lookup').find({
       query: { _id: query.datastream_id }
     }).then(datastreams => {
-      hook.params.datastreams = datastreams.data;
+      hook.params.datastreams = datastreams;
       return hook;
     });
   }, hook => {

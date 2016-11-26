@@ -22,12 +22,6 @@ exports.before = {
       const datastream = hook.params.datastream
       if (!(typeof datastream === 'object')) throw new errors.BadRequest('Expected datastream')
       if (!Array.isArray(datastream.datapoints_config)) throw new errors.GeneralError('Missing datapoints config')
-
-      // Points must be sorted by 'time' (default DESC)
-      const query = hook.params.query
-      query.$sort = {
-        time: (typeof query.$sort === 'object') && (typeof query.$sort.time !== 'undefined') ? query.$sort.time : -1
-      }
     },
 
     hooks.removeQuery('datastream_id')

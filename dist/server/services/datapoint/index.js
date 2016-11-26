@@ -84,6 +84,10 @@ class Service {
       }
     });
 
+    // Points can only be sorted by 'time' (default DESC)
+    filters.$sort = {
+      time: filters.$sort.time === 'undefined' ? -1 : filters.$sort.time
+    };
     config = filters.$sort.time === -1 ? stack.reverse() : stack;
 
     /*
@@ -161,19 +165,18 @@ class Service {
 module.exports = function () {
   return function () {
     const app = this;
+    const services = app.get('services');
 
-    app.use('/datapoints', new Service({
-      // TODO: Don't hardcode!
-      paginate: {
-        default: 20,
-        max: 2000
-      }
-    }));
+    if (services.datapoint) {
+      app.use('/datapoints', new Service({
+        paginate: services.datapoint.paginate
+      }));
 
-    // Get the wrapped service object, bind hooks
-    const datapointService = app.service('/datapoints');
+      // Get the wrapped service object, bind hooks
+      const datapointService = app.service('/datapoints');
 
-    datapointService.before(hooks.before);
-    datapointService.after(hooks.after);
+      datapointService.before(hooks.before);
+      datapointService.after(hooks.after);
+    }
   };
 }();

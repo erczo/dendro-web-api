@@ -13,7 +13,6 @@
 // }
 
 // TODO: Query hooks should allow multiple fields to be specified?
-// TODO: splitQuery (default) max items should be in configuration?
 // TODO: Add option to ValidationContext for servicePath?
 
 const Ajv = require('ajv');
@@ -147,13 +146,13 @@ exports.parseIntQuery = (field, defaultValue = 0) => {
   };
 };
 
-exports.splitQuery = (field, sep, op, max = 100) => {
+exports.splitQuery = (field, sep, op, max) => {
   return hook => {
     const value = hook.params.query[field];
     if (typeof value !== 'string') return;
 
     const items = value.split(',');
-    if (items.length > max) items.length = max; // Truncate
+    if (Number.isInteger(max) && items.length > max) items.length = max; // Truncate
     if (items.length < 2) {} else if (typeof op === 'string') hook.params.query[field] = { [op]: items };else hook.params.query[field] = items;
   };
 };
