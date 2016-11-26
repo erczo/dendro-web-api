@@ -20,7 +20,7 @@ const {treeMap} = require('../lib/utils')
 const {ObjectID} = require('mongodb')
 
 // Regular expressions for data type detection
-const idPathRegex = /^\S*_id$/
+const idPathRegex = /^\/\w*_id(\/.*)?$/
 const isoDateRegex = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})Z$/i
 
 let validationContext // Singleton

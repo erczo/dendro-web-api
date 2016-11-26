@@ -8,13 +8,6 @@
     "created_at": {
       "type": "string"
     },
-    "something_id": {
-      "type": "string"
-    },
-    "some_date": {
-      "type": "string",
-      "format": "date-time"
-    },
     "description": {
       "type": "string"
     },

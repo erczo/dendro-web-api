@@ -15,8 +15,6 @@ class Service {
 module.exports = (function () {
   return function () {
     const app = this
-    // const opts = {
-    // }
 
     app.use('/datastreams/lookup', new Service())
 

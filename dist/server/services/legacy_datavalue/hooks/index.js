@@ -22,12 +22,13 @@ exports.before = {
     // Eval 'time' query field
     if (typeof query.time === 'object') {
       query.local_date_time = treeMap(query.time, obj => {
+        // Only map values that were coerced, i.e. in the correct format
         if (obj instanceof Date) return new Date(obj.getTime() + query.time_adjust * 1000);
         return null;
       });
     }
 
-    // Eval $sort option
+    // Eval $sort query field
     if (typeof query.$sort === 'object' && typeof query.$sort.time !== 'undefined') {
       query.$sort = { local_date_time: query.$sort.time };
     }

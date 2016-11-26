@@ -67,7 +67,9 @@ function treeMap(obj, callback, path = '') {
     return treeMap(el, callback, `${ path }/${ i }`);
   });
 
-  if (typeof obj === 'object' && obj !== null && !(obj instanceof Date)) {
+  // NOTE: Kinda a hack - we just wanna traverse plain old objects
+  // SEE: https://toddmotto.com/understanding-javascript-types-and-reliable-type-checking/
+  if (Object.prototype.toString.call(obj) === '[object Object]') {
     obj = Object.assign({}, obj);
     Object.keys(obj).forEach(key => {
       obj[key] = treeMap(obj[key], callback, `${ path }/${ key }`);

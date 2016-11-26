@@ -3,8 +3,11 @@ const feathersSequelizeUtils = require('feathers-sequelize/lib/utils')
 const hooks = require('./hooks')
 
 /**
- * Custom service since we don't need pagination, and the pre-built feathers-sequelize
- * service uses findAndCount which adds the overhead of SQL COUNT for every query.
+ * Low-level service to retrieve legacy datavalues.
+ *
+ * This is a custom service since we don't need pagination, and the pre-built
+ * feathers-sequelize service uses findAndCount which adds the overhead of
+ * SQL COUNT for every query.
  */
 class Service {
   constructor (options) {
