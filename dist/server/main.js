@@ -38,6 +38,8 @@ app.configure(configuration(path.join(__dirname, '../..')));
 // Feathers setup
 app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(databases).configure(schemas).configure(services).configure(middleware);
 
+// TODO: Handle SIGTERM gracefully for Docker
+// SEE: http://joseoncode.com/2014/07/21/graceful-shutdown-in-node-dot-js/
 Promise.resolve(app.get('middlewareReady')).then(() => {
   const port = app.get('port');
   const server = app.listen(port);

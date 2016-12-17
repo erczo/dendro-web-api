@@ -47,6 +47,8 @@ app.use(compress())
   .configure(services)
   .configure(middleware)
 
+// TODO: Handle SIGTERM gracefully for Docker
+// SEE: http://joseoncode.com/2014/07/21/graceful-shutdown-in-node-dot-js/
 Promise.resolve(app.get('middlewareReady')).then(() => {
   const port = app.get('port')
   const server = app.listen(port)

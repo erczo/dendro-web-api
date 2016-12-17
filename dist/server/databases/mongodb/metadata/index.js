@@ -8,6 +8,18 @@ module.exports = function () {
     const metadata = app.get('databases').mongodb.metadata;
 
     // Configure a new instance
-    metadata.db = MongoClient.connect(metadata.url, metadata.options);
+    metadata.db = new Promise((resolve, reject) => {
+      const tryConnect = function tryConnect() {
+        MongoClient.connect(metadata.url, metadata.options).then(db => {
+          resolve(db);
+        }).catch(() => {
+          // If database service is unavailable, then retry
+          // TODO: Don't hardcode retry interval
+          // TODO: Add max retries?
+          setTimeout(tryConnect, 5000);
+        });
+      };
+      tryConnect();
+    });
   };
 }();

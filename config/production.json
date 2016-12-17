@@ -1,14 +1,21 @@
 {
-  "host": "feathers-test-app.feathersjs.com",
-  "port": 80,
-  "influx": "DATABASE_URL",
-  "mysql": "DATABASE_URL",
-  "public": "../dist/public/",
-  "auth": {
-    "idField": "id",
-    "token": {
-      "secret": "FEATHERS_AUTH_SECRET"
+  "databases": {
+    "influx": {
+      "readings": false
     },
-    "local": {}
-  }
+    "mongodb": {
+      "defaultLogger": {
+        "level": "error"
+      },
+      "metadata": {
+        "url": "MONGO_URL"
+      }
+    },
+    "mysql": {
+      "legacy": {
+        "url": "LEGACY_MYSQL_URL"
+      }
+    }
+  },
+  "port": 8080
 }
