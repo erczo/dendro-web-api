@@ -11,7 +11,7 @@ TODO: Briefly describe this repo and Project Dendro
 
 3. Make this project directory the current directory, i.e. `cd dendro-web-api`.
 
-4. Install modules via `npm install'.
+4. Install modules via `npm install`.
 
 5. If all goes well, you should be able to run the predefined package scripts.
 

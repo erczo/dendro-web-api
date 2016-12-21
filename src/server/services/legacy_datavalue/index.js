@@ -54,16 +54,24 @@ module.exports = (function () {
     if (databases.mysql && databases.mysql.legacy) {
       app.set('serviceReady',
         Promise.resolve(databases.mysql.legacy.models).then(models => {
-          app.use('/legacy/datavalues', new Service({
-            Model: models.Datavalue,
-            paginate: databases.mysql.legacy.paginate
-          }))
+          const bindService = function (model, path) {
+            app.use(path, new Service({
+              Model: model,
+              paginate: databases.mysql.legacy.paginate
+            }))
 
-          // Get the wrapped service object, bind hooks
-          const datavalueService = app.service('/legacy/datavalues')
+            // Get the wrapped service object, bind hooks
+            const service = app.service(path)
 
-          datavalueService.before(hooks.before)
-          datavalueService.after(hooks.after)
+            service.before(hooks.before)
+            service.after(hooks.after)
+          }
+
+          bindService(models.datavalues2, '/legacy/datavalues2')
+          bindService(models.datavalues_borr, '/legacy/datavalues-borr')
+          bindService(models.datavalues_motes, '/legacy/datavalues-motes')
+          bindService(models.datavalues_sagehen, '/legacy/datavalues-sagehen')
+          bindService(models.datavalues_ucnrs, '/legacy/datavalues-ucnrs')
         }))
     }
   }

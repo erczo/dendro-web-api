@@ -3,7 +3,7 @@
 const path = require('path');
 
 module.exports = sequelize => {
-  const modelNames = ['Datavalue'];
+  const modelNames = ['datavalues2', 'datavalues_borr', 'datavalues_motes', 'datavalues_sagehen', 'datavalues_ucnrs'];
 
   let models = {};
   modelNames.forEach(name => {

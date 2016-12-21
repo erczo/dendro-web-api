@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-  const Datavalue = sequelize.define('datavalue', {
+module.exports = (sequelize, DataTypes, modelName, tableName) => {
+  const Datavalue = sequelize.define(modelName, {
     id: {
       allowNull: false,
       field: 'ValueID',
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     getterMethods: {
       utc_date_time: function () { return new Date(this.local_date_time.getTime() - this.utc_offset * 3600000) }
     },
-    tableName: 'datavalues2'
+    tableName: tableName
   })
 
   return Datavalue
