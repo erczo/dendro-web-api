@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "_id": {"type": "string"},
+    "abbreviation": {"type": "string"},
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "city": {"type": "string"},
+        "postal_code": {"type": "string"},
+        "primary_phone": {"type": "string"},
+        "state": {"type": "string"},
+        "street_address": {"type": "string"}
+      },
+      "required": []
+    },
+    "country_code": {"type": "string"},
+    "created_at": {"$ref": "#/definitions/isoDate"},
+    "external_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref_id": {"type": "string"},
+          "type": {"type": "string"},
+          "url": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "required": ["ref_id"]
+      }
+    },
+    "full_name": {"type": "string"},
+    "geo": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "number"}
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Point"]
+        }
+      },
+      "required": ["coordinates", "type"]
+    },
+    "name": {"type": "string"},
+    "place_type": {"type": "string"},
+    "url": {
+      "type": "string",
+      "format": "url"
+    }
+  },
+  "definitions": {
+    "objectId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{24}$",
+      "maxLength": 24
+    },
+    "isoDate": {
+      "type": "string", 
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+    }
+  },
+  "required": ["geo", "name"],
+  "additionalProperties": false
+}

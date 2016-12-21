@@ -2,25 +2,10 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {
-      "type": "string",
-      "maxLength": 50
-    },
+    "_id": {"$ref": "#/definitions/objectId"},
     "created_at": {"$ref": "#/definitions/isoDate"},
-    "updated_at": {"$ref": "#/definitions/isoDate"},
-    "description": { 
-      "type": "string", 
-      "maxLength": 2000 
-    },
-    "name": { 
-      "type": "string", 
-      "maxLength": 200
-    },
-    "url": {
-      "type": "string",
-      "format": "url"
-    },
-    "version": {"type": "string"}
+    "email": {"type": "string"},
+    "name": {"type": "string"}
   },
   "definitions": {
     "objectId": {

@@ -3,8 +3,7 @@
 const globalHooks = require('../../../hooks');
 // const hooks = require('feathers-hooks')
 
-// TODO: Prepare schemna and enable validation
-// const SCHEMA_NAME = 'person.json'
+const SCHEMA_NAME = 'person.json';
 
 exports.before = {
   // all: [],
@@ -13,21 +12,17 @@ exports.before = {
 
   // get: [],
 
-  create: [
-  // globalHooks.validate(SCHEMA_NAME),
-  globalHooks.timestamp(), globalHooks.coerce()],
+  create: [globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce()],
 
-  update: [
-  // globalHooks.validate(SCHEMA_NAME),
-  globalHooks.timestamp(), globalHooks.coerce(), hook => {
+  update: [globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce(), hook => {
     // TODO: Optimize with find/$select to return fewer fields?
-    return hook.app.service('/schemes').get(hook.id).then(doc => {
+    return hook.app.service('/persons').get(hook.id).then(doc => {
       hook.data.created_at = doc.created_at;
       return hook;
     });
   }],
 
-  // NOTE: Relies solely on Mongo document validation
+  // TODO: Validate with Mongo document validation
   patch: [globalHooks.timestamp(), globalHooks.coerce()]
 
   // remove: []

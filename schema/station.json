@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "_id": {"$ref": "#/definitions/objectId"},
+    "activated_at": {"$ref": "#/definitions/isoDate"},
+    "altitude": {
+      "type": "object",
+      "properties": {
+        "elevation": {"type": "number"}
+      },
+      "required": ["elevation"]
+    },
+    "datastreams_ids": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/objectId"}
+    },
+    "created_at": {"$ref": "#/definitions/isoDate"},
+    "deactivated_at": {"$ref": "#/definitions/isoDate"},
+    "enabled": {"type": "boolean"},
+    "full_name": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "geo": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "number"}
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Point"]
+        }
+      },
+      "required": ["coordinates", "type"]
+    },
+    "is_active": {"type": "boolean"},
+    "is_stationary": {"type": "boolean"},
+    "media": { 
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "sizes": {
+            "type": "object",
+            "properties": {
+              "large": {
+                "type": "object",
+                "properties": {
+                  "h": {"type": "number"},
+                  "w": {"type": "number"}
+                }
+              },
+              "medium": {
+                "type": "object",
+                "properties": {
+                  "h": {"type": "number"},
+                  "w": {"type": "number"}
+                }
+              },
+              "thumb": {
+                "type": "object",
+                "properties": {
+                  "h": {"type": "number"},
+                  "w": {"type": "number"}
+                }
+              }
+            },
+            "required": ["large", "medium", "thumb"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["photo"]
+          },
+          "url": {
+            "type": "string",
+            "format": "url"
+          }
+        }
+      } 
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "organization_id": {"$ref": "#/definitions/objectId"},
+          "person_id": {"$ref": "#/definitions/objectId"},
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 50
+            }
+          }
+        },
+        "required": ["roles"]
+      }
+    },
+    "name": {"type": "string"},
+    "place_id": {"type": "string"},
+    "slug": {"$ref": "#/definitions/slugId"},
+    "station_type": {
+      "type": "string",
+      "enum": ["weather"]
+    },
+    "thing_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/objectId"}
+    },
+    "utc_offset": {"type": "number"},
+    "website_url": {
+      "type": "string",
+      "format": "url"
+    }
+  },
+  "definitions": {
+    "objectId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{24}$",
+      "maxLength": 24
+    },
+    "isoDate": {
+      "type": "string", 
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+    },
+    "slugId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    }
+  },
+  "required": ["enabled", "is_active", "is_stationary", "name", "station_type", "utc_offset"],
+  "additionalProperties": false
+}

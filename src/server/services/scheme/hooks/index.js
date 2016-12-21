@@ -1,8 +1,7 @@
 const globalHooks = require('../../../hooks')
 // const hooks = require('feathers-hooks')
 
-// TODO: Prepare schemna and enable validation
-// const SCHEMA_NAME = 'scheme.json'
+const SCHEMA_NAME = 'scheme.json'
 
 exports.before = {
   // all: [],
@@ -14,13 +13,13 @@ exports.before = {
   // get: [],
 
   create: [
-    // globalHooks.validate(SCHEMA_NAME),
+    globalHooks.validate(SCHEMA_NAME),
     globalHooks.timestamp(),
     globalHooks.coerce()
   ],
 
   update: [
-    // globalHooks.validate(SCHEMA_NAME),
+    globalHooks.validate(SCHEMA_NAME),
     globalHooks.timestamp(),
     globalHooks.coerce(),
 
@@ -33,7 +32,7 @@ exports.before = {
     }
   ],
 
-  // NOTE: Relies solely on Mongo document validation
+  // TODO: Validate with Mongo document validation
   patch: [
     globalHooks.timestamp(),
     globalHooks.coerce()

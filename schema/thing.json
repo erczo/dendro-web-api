@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "_id": {"$ref": "#/definitions/objectId"},
+    "attributes": {"type": "object"},
+    "created_at": {"$ref": "#/definitions/isoDate"},
+    "description": {"type": "string"},
+    "full_name": {"type": "string"},
+    "geo": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "number"}
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Point"]
+        }
+      },
+      "required": ["coordinates", "type"]
+    },
+    "instance_of_thing_id": {"$ref": "#/definitions/objectId"},
+    "is_abstract": {"type": "boolean"},
+    "manufacturer": {"type": "object"},
+    "method_description": {"type": "string"},
+    "model": {"type": "string"},
+    "name": {"type": "string"},
+    "part_of_thing_id": {"$ref": "#/definitions/objectId"},
+    "serial_number": {"type": "string"},
+    "thing_type": {
+      "type": "string",
+      "enum": ["sensor"]
+    },
+    "urls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {"type": "string"},
+          "url": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "required": ["url"]
+      }
+    }
+  },
+  "definitions": {
+    "objectId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{24}$",
+      "maxLength": 24
+    },
+    "isoDate": {
+      "type": "string", 
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+    }
+  },
+  "required": ["is_abstract", "name"],
+  "additionalProperties": false
+}
