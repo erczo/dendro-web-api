@@ -8,7 +8,9 @@ const globalHooks = require('../../../hooks');
 exports.before = {
   // all: [],
 
-  find: [globalHooks.splitQuery('_id', ',', '$in'), globalHooks.splitQuery('tags', '+', '$all'), globalHooks.coerceQuery()]
+  find: [globalHooks.splitQuery('_id', ',', '$in'),
+  // TODO: Make this accept a list of tags?
+  globalHooks.splitQuery('tags', '+', '$all'), globalHooks.coerceQuery()]
 
   // get: [],
   // create: [],

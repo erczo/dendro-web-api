@@ -9,6 +9,7 @@
 // TODO: Code and test all CRUD methods!
 // TODO: Define hooks to prevent updating!
 // TODO: Ensure that we have indexes for all queries
+// TODO: Wrap service calls inside setImmediate?
 
 const path = require('path')
 const feathers = require('feathers')

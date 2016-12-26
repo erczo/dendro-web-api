@@ -44,6 +44,8 @@ class Service {
       5. Do a final reorder based on $sort.time
      */
 
+    // TODO: Break this into smaller methods?
+
     const stack = []
     const datastream = params.datastream
     let config = (typeof datastream === 'object') && Array.isArray(datastream.datapoints_config) ? datastream.datapoints_config : []
