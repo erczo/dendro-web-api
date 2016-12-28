@@ -10,7 +10,7 @@ exports.before = {
 
   find: [globalHooks.splitQuery('_id', ',', '$in'),
   // TODO: Make this accept a list of tags?
-  globalHooks.splitQuery('tags', '+', '$all'), globalHooks.coerceQuery()]
+  globalHooks.splitQuery('tags', '.', '$all'), globalHooks.coerceQuery()]
 
   // get: [],
   // create: [],
