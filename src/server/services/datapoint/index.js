@@ -87,7 +87,7 @@ class Service {
 
     // Points can only be sorted by 'time' (default DESC)
     filters.$sort = {
-      time: typeof filters.$sort.time === 'undefined' ? -1 : filters.$sort.time
+      time: (typeof filters.$sort === 'object') && (typeof filters.$sort.time !== 'undefined') ? filters.$sort.time : -1
     }
     config = filters.$sort.time === -1 ? stack.reverse() : stack
 

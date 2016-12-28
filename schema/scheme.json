@@ -12,7 +12,7 @@
     "name": {"type": "string"},
     "url": {
       "type": "string",
-      "format": "url"
+      "format": "uri"
     },
     "version": {"type": "string"}
   },

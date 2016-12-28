@@ -77,7 +77,7 @@
           },
           "url": {
             "type": "string",
-            "format": "url"
+            "format": "uri"
           }
         }
       }
@@ -113,7 +113,7 @@
     "utc_offset": {"type": "number"},
     "website_url": {
       "type": "string",
-      "format": "url"
+      "format": "uri"
     }
   },
   "definitions": {
