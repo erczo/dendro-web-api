@@ -8,6 +8,7 @@ exports.before = {
 
   get: [
     (hook) => {
+      // TODO: Move this to _get in service?
       if (hook.app.get('schemaNames').indexOf(hook.id) === -1) {
         throw new errors.NotFound('Page not found')
       }

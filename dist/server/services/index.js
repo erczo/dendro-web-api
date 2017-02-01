@@ -7,7 +7,7 @@ module.exports = function () {
     const app = this;
     const serviceNames = ['authentication', 'datapoint_lookup', // Route must precede datapoint
     'datapoint', 'datastream_lookup', // Route must precede datastream
-    'datastream', 'legacy_datavalue', 'membership', 'organization', 'person', 'place', 'scheme', 'station', 'system_schema', 'thing', 'vocabulary'];
+    'datastream', 'legacy_datavalue', 'membership', 'organization', 'person', 'place', 'scheme', 'station', 'system_schema', 'system_time', 'thing', 'vocabulary'];
 
     // Feathers configuration is synchronous, so use promises to wait for
     // async stuff like database connections, etc.

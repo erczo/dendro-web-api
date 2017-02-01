@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 class Service {
-  constructor(options) {
+  constructor() {
     // HACK: Syntax highlighting breaks on class methods named 'get'
     this.get = this._get;
   }
@@ -45,8 +45,6 @@ class Service {
 module.exports = function () {
   return function () {
     const app = this;
-    // const opts = {
-    // }
 
     app.use('/system/schemas', new Service());
 

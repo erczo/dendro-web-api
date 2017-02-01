@@ -17,6 +17,7 @@ module.exports = (function () {
       'scheme',
       'station',
       'system_schema',
+      'system_time',
       'thing',
       'vocabulary'
     ]

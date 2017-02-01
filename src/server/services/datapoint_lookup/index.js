@@ -1,8 +1,6 @@
 const hooks = require('./hooks')
 
 class Service {
-  // constructor (options) {}
-
   setup (app) {
     this.app = app
   }

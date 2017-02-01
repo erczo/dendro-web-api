@@ -58,7 +58,7 @@ class Interval {
 exports.Interval = Interval
 
 /**
- * Works like Array.map, expect for objects
+ * Works like Array.map, expect for objects.
  */
 function treeMap (obj, callback, path = '') {
   if (Array.isArray(obj)) return obj.map((el, i) => { return treeMap(el, callback, `${path}/${i}`) })
