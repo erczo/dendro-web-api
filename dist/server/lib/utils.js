@@ -64,7 +64,7 @@ exports.Interval = Interval;
  */
 function treeMap(obj, callback, path = '') {
   if (Array.isArray(obj)) return obj.map((el, i) => {
-    return treeMap(el, callback, `${ path }/${ i }`);
+    return treeMap(el, callback, `${path}/${i}`);
   });
 
   // NOTE: Kinda a hack - we just wanna traverse plain old objects
@@ -72,7 +72,7 @@ function treeMap(obj, callback, path = '') {
   if (Object.prototype.toString.call(obj) === '[object Object]') {
     obj = Object.assign({}, obj);
     Object.keys(obj).forEach(key => {
-      obj[key] = treeMap(obj[key], callback, `${ path }/${ key }`);
+      obj[key] = treeMap(obj[key], callback, `${path}/${key}`);
     });
     return obj;
   }
