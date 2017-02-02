@@ -1,6 +1,6 @@
 'use strict';
 
-const influx = require('influx');
+const Influx = require('influx');
 
 module.exports = function () {
   return function () {
@@ -8,7 +8,8 @@ module.exports = function () {
     const readings = app.get('databases').influx.readings;
 
     // Configure a new instance
-    const client = influx(readings.url);
+    // TODO: Revise this - driver has changed!
+    const client = new Influx.InfluxDB(readings.url);
 
     readings.client = client;
   };

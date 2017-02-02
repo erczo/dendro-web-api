@@ -2,13 +2,26 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {"$ref": "#/definitions/objectId"},
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "organization_id": {"$ref": "#/definitions/objectId"},
-    "person_id": {"$ref": "#/definitions/objectId"},
+    "_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "organization_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "person_id": {
+      "$ref": "#/definitions/objectId"
+    },
     "roles": {
       "type": "array",
-      "items": {"type": "string"},
+      "items": {
+        "type": "string"
+      },
       "minItems": 1
     }
   },

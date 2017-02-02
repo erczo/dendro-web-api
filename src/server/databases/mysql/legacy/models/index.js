@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     'datavalues_borr',
     'datavalues_motes',
     'datavalues_sagehen',
+    'datavalues_seasonal',
     'datavalues_ucnrs'
   ]
 

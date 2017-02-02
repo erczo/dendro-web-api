@@ -6,8 +6,15 @@
       "type": "string",
       "maxLength": 50
     },
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "description": {"type": "string"},
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "description": {
+      "type": "string"
+    },
     "label": {
       "type": "string",
       "maxLength": 50
@@ -21,15 +28,21 @@
       "items": {
         "type": "object",
         "properties": {
-          "abbreviation": {"type": "string"},
-          "definition": {"type": "string"},
+          "abbreviation": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string"
+          },
           "label": {
             "type": "string",
             "maxLength": 50
           },
-          "name": {"type": "string"}
+          "name": {
+            "type": "string"
+          }
         },
-        "required": ["label", "name"]
+        "required": ["label"]
       }
     }
   },

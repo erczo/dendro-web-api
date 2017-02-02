@@ -52,7 +52,7 @@ exports.after = {
     // TODO: Move this into a global hook?
     const count = 20;
     const data = hook.result.data;
-    const mapTask = function mapTask(start) {
+    const mapTask = function (start) {
       return new Promise(resolve => {
         setImmediate(() => {
           const len = Math.min(start + count, data.length);

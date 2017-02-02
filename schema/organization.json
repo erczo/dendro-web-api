@@ -2,10 +2,21 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {"$ref": "#/definitions/objectId"},
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "email": {"type": "string"},
-    "name": {"type": "string"}
+    "_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
   },
   "definitions": {
     "objectId": {
@@ -14,7 +25,7 @@
       "maxLength": 24
     },
     "isoDate": {
-      "type": "string", 
+      "type": "string",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
     }
   },

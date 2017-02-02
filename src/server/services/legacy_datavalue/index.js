@@ -71,6 +71,7 @@ module.exports = (function () {
           bindService(models.datavalues_borr, '/legacy/datavalues-borr')
           bindService(models.datavalues_motes, '/legacy/datavalues-motes')
           bindService(models.datavalues_sagehen, '/legacy/datavalues-sagehen')
+          bindService(models.datavalues_seasonal, '/legacy/datavalues-seasonal')
           bindService(models.datavalues_ucnrs, '/legacy/datavalues-ucnrs')
         }))
     }

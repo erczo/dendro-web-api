@@ -2,28 +2,54 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {"type": "string"},
-    "abbreviation": {"type": "string"},
+    "_id": {
+      "type": "string"
+    },
+    "abbreviation": {
+      "type": "string"
+    },
     "attributes": {
       "type": "object",
       "properties": {
-        "city": {"type": "string"},
-        "postal_code": {"type": "string"},
-        "primary_phone": {"type": "string"},
-        "state": {"type": "string"},
-        "street_address": {"type": "string"}
+        "city": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "primary_phone": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "street_address": {
+          "type": "string"
+        }
       },
       "required": []
     },
-    "country_code": {"type": "string"},
-    "created_at": {"$ref": "#/definitions/isoDate"},
+    "country_code": {
+      "type": "string"
+    },
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
     "external_refs": {
       "type": "array",
       "items": {
         "type": "object",
+        "minItems": 1,
         "properties": {
-          "ref_id": {"type": "string"},
-          "type": {"type": "string"},
+          "ref_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
           "url": {
             "type": "string",
             "format": "uri"
@@ -32,15 +58,19 @@
         "required": ["ref_id"]
       }
     },
-    "full_name": {"type": "string"},
+    "full_name": {
+      "type": "string"
+    },
     "geo": {
       "type": "object",
       "properties": {
         "coordinates": {
           "type": "array",
           "minItems": 2,
-          "maxItems": 2,
-          "items": {"type": "number"}
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
         },
         "type": {
           "type": "string",
@@ -49,8 +79,12 @@
       },
       "required": ["coordinates", "type"]
     },
-    "name": {"type": "string"},
-    "place_type": {"type": "string"},
+    "name": {
+      "type": "string"
+    },
+    "place_type": {
+      "type": "string"
+    },
     "url": {
       "type": "string",
       "format": "uri"

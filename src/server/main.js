@@ -11,7 +11,8 @@
 // TODO: Ensure that we have indexes for all queries
 // TODO: Wrap service calls inside setImmediate?
 
-const path = require('path')
+// TODO: Remove - was used by configuration below
+// const path = require('path')
 const feathers = require('feathers')
 const compress = require('compression')
 const cors = require('cors')
@@ -32,7 +33,9 @@ const app = feathers()
 const log = console
 
 // Configure
-app.configure(configuration(path.join(__dirname, '../..')))
+// TODO: Remove - now doing this the 0.4.x way below
+// app.configure(configuration(path.join(__dirname, '../..')))
+app.configure(configuration())
 
 // Feathers setup
 app.use(compress())

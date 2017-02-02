@@ -2,31 +2,37 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {"$ref": "#/definitions/objectId"},
-    "activated_at": {"$ref": "#/definitions/isoDate"},
-    "altitude": {
-      "type": "object",
-      "properties": {
-        "elevation": {"type": "number"}
-      },
-      "required": ["elevation"]
+    "_id": {
+      "$ref": "#/definitions/objectId"
     },
-    "datastreams_ids": {
-      "type": "array",
-      "items": {"$ref": "#/definitions/objectId"}
+    "activated_at": {
+      "$ref": "#/definitions/isoDate"
     },
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "deactivated_at": {"$ref": "#/definitions/isoDate"},
-    "enabled": {"type": "boolean"},
-    "full_name": {"type": "string"},
+    "deactivated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "full_name": {
+      "type": "string"
+    },
     "geo": {
       "type": "object",
       "properties": {
         "coordinates": {
           "type": "array",
           "minItems": 2,
-          "maxItems": 2,
-          "items": {"type": "number"}
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
         },
         "type": {
           "type": "string",
@@ -35,12 +41,15 @@
       },
       "required": ["coordinates", "type"]
     },
-    "is_active": {"type": "boolean"},
-    "is_stationary": {"type": "boolean"},
+    "is_active": {
+      "type": "boolean"
+    },
+    "is_stationary": {
+      "type": "boolean"
+    },
     "media": {
       "type": "array",
-      "minItems": 0,
-      "maxItems": 5,
+      "minItems": 1,
       "items": {
         "type": "object",
         "properties": {
@@ -48,38 +57,38 @@
             "type": "object",
             "properties": {
               "large": {
-                "type": "object",
-                "properties": {
-                  "h": {"type": "number"},
-                  "w": {"type": "number"}
-                }
+                "$ref": "#/definitions/mediaSize"
               },
               "medium": {
-                "type": "object",
-                "properties": {
-                  "h": {"type": "number"},
-                  "w": {"type": "number"}
-                }
+                "$ref": "#/definitions/mediaSize"
+              },
+              "medium_2x": {
+                "$ref": "#/definitions/mediaSize"
+              },
+              "small": {
+                "$ref": "#/definitions/mediaSize"
+              },
+              "small_2x": {
+                "$ref": "#/definitions/mediaSize"
               },
               "thumb": {
-                "type": "object",
-                "properties": {
-                  "h": {"type": "number"},
-                  "w": {"type": "number"}
-                }
+                "$ref": "#/definitions/mediaSize"
+              },
+              "thumb_2x": {
+                "$ref": "#/definitions/mediaSize"
               }
             },
-            "required": ["large", "medium", "thumb"]
+            "required": ["large", "medium", "small", "thumb"]
           },
           "type": {
             "type": "string",
             "enum": ["photo"]
           },
-          "url": {
-            "type": "string",
-            "format": "uri"
+          "caption": {
+            "type": "string"
           }
-        }
+        },
+        "required": ["sizes", "type"]
       }
     },
     "members": {
@@ -87,33 +96,65 @@
       "items": {
         "type": "object",
         "properties": {
-          "organization_id": {"$ref": "#/definitions/objectId"},
-          "person_id": {"$ref": "#/definitions/objectId"},
+          "organization_id": {
+            "$ref": "#/definitions/objectId"
+          },
+          "person_id": {
+            "$ref": "#/definitions/objectId"
+          },
           "roles": {
             "type": "array",
-            "items": {"type": "string"},
+            "items": {
+              "type": "string"
+            },
             "minItems": 1
           }
         },
         "required": ["roles"]
       }
     },
-    "name": {"type": "string"},
-    "place_id": {"$ref": "#/definitions/objectId"},
-    "slug": {"$ref": "#/definitions/slugId"},
+    "name": {
+      "type": "string"
+    },
+    "place_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "slug": {
+      "$ref": "#/definitions/slugId"
+    },
     "station_type": {
       "type": "string",
       "enum": ["weather"]
     },
+    "time_zone": {
+      "type": "string"
+    },
     "thing_ids": {
       "type": "array",
       "minItems": 1,
-      "items": {"$ref": "#/definitions/objectId"}
+      "items": {
+        "$ref": "#/definitions/objectId"
+      }
     },
-    "utc_offset": {"type": "number"},
-    "website_url": {
-      "type": "string",
-      "format": "uri"
+    "utc_offset": {
+      "type": "number"
+    },
+    "external_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "minItems": 1,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": ["title", "url"]
+      }
     }
   },
   "definitions": {
@@ -126,11 +167,26 @@
       "type": "string",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
     },
+    "mediaSize": {
+      "type": "object",
+      "properties": {
+        "h": {
+          "type": "number"
+        },
+        "w": {
+          "type": "number"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
     "slugId": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$"
     }
   },
-  "required": ["enabled", "is_active", "is_stationary", "name", "station_type", "utc_offset"],
+  "required": ["enabled", "is_active", "is_stationary", "name", "station_type", "time_zone", "utc_offset"],
   "additionalProperties": false
 }

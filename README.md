@@ -36,8 +36,8 @@ TODO: Briefly describe this repo and Project Dendro
 - [ ] Add copyright notices, license file, etc.
 - [ ] Remember, project is in dev mode by default
 - [ ] Don't leak stack traces
-- [ ] Deal with configuration (inconsistent with web site)
+- [x] Deal with configuration (inconsistent with web site)
 - [ ] SQL logging is turned on - turn it off
 - [ ] Add variables to model
-- [ ] Rename SQL database to dendro_meta_oak
-- [ ] Rename Influx database to dendro_oak
+- [ ] Rename Mongo database to dendro_metadata
+- [ ] Rename Influx database to dendro_readings

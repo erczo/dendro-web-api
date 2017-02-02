@@ -6,15 +6,25 @@
       "type": "string",
       "maxLength": 50
     },
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "updated_at": {"$ref": "#/definitions/isoDate"},
-    "description": {"type": "string"},
-    "name": {"type": "string"},
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "description": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
     "url": {
       "type": "string",
       "format": "uri"
     },
-    "version": {"type": "string"}
+    "version": {
+      "type": "string"
+    }
   },
   "definitions": {
     "isoDate": {

@@ -9,7 +9,7 @@ module.exports = function () {
 
     // Configure a new instance
     metadata.db = new Promise((resolve, reject) => {
-      const tryConnect = function tryConnect() {
+      const tryConnect = function () {
         MongoClient.connect(metadata.url, metadata.options).then(db => {
           resolve(db);
         }).catch(() => {

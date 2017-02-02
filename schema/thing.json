@@ -2,19 +2,34 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "_id": {"$ref": "#/definitions/objectId"},
-    "attributes": {"type": "object"},
-    "created_at": {"$ref": "#/definitions/isoDate"},
-    "description": {"type": "string"},
-    "full_name": {"type": "string"},
+    "_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "created_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "updated_at": {
+      "$ref": "#/definitions/isoDate"
+    },
+    "description": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
     "geo": {
       "type": "object",
       "properties": {
         "coordinates": {
           "type": "array",
           "minItems": 2,
-          "maxItems": 2,
-          "items": {"type": "number"}
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
         },
         "type": {
           "type": "string",
@@ -23,21 +38,41 @@
       },
       "required": ["coordinates", "type"]
     },
-    "instance_of_thing_id": {"$ref": "#/definitions/objectId"},
-    "is_abstract": {"type": "boolean"},
-    "manufacturer": {"type": "object"},
-    "method_description": {"type": "string"},
-    "model": {"type": "string"},
-    "name": {"type": "string"},
-    "part_of_thing_id": {"$ref": "#/definitions/objectId"},
-    "serial_number": {"type": "string"},
-    "thing_type": {"type": "string"},
+    "instance_of_thing_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "is_abstract": {
+      "type": "boolean"
+    },
+    "manufacturer": {
+      "type": "object"
+    },
+    "method_description": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "part_of_thing_id": {
+      "$ref": "#/definitions/objectId"
+    },
+    "serial_number": {
+      "type": "string"
+    },
+    "thing_type": {
+      "type": "string"
+    },
     "urls": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "label": {"type": "string"},
+          "label": {
+            "type": "string"
+          },
           "url": {
             "type": "string",
             "format": "uri"
