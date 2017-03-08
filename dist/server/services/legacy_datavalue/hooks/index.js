@@ -58,7 +58,7 @@ exports.after = {
           const len = Math.min(start + count, data.length);
           for (let i = start; i < len; i++) {
             const item = data[i];
-            data[i] = { t: item.utc_date_time, v: item.value };
+            data[i] = { t: item.utc_date_time, o: item.utc_offset_secs, v: item.value };
           }
           resolve();
         });

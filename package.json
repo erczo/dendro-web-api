@@ -1,6 +1,6 @@
 {
   "name": "dendro-web-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Project Dendro REST API.",
   "license": "BSD-2-Clause-FreeBSD",
   "author": "J. Scott Smith <scott@newleafsolutionsinc.com>",

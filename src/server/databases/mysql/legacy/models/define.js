@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes, modelName, tableName) => {
   }, {
     freezeTableName: true,
     getterMethods: {
-      utc_date_time: function () { return new Date(this.local_date_time.getTime() - this.utc_offset * 3600000) }
+      utc_date_time: function () { return new Date(this.local_date_time.getTime() - this.utc_offset * 3600000) },
+      utc_offset_secs: function () { return this.utc_offset * 3600 }
     },
     tableName: tableName
   })

@@ -25,19 +25,3 @@ TODO: Briefly describe this repo and Project Dendro
 3. Tag the desired image, e.g. `docker tag f0ec409b5194 dendro/dendro-web-api:latest`.
 
 4. Push it via `docker push dendro/dendro-web-api`.
-
-
-## Tasks
-
-- [ ] Add logging: winston? Papertrail? Etc.
-- [x] Define .editorconfig
-- [ ] Write a proper README!
-- [ ] Document code and package scripts
-- [ ] Add copyright notices, license file, etc.
-- [ ] Remember, project is in dev mode by default
-- [ ] Don't leak stack traces
-- [x] Deal with configuration (inconsistent with web site)
-- [ ] SQL logging is turned on - turn it off
-- [ ] Add variables to model
-- [ ] Rename Mongo database to dendro_metadata
-- [ ] Rename Influx database to dendro_readings
