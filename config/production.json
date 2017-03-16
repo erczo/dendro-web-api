@@ -1,4 +1,9 @@
 {
+  "connections": {
+    "noaa": {
+      "url": "NOAA_API_URL"
+    }
+  },
   "databases": {
     "influx": {
       "readings": false

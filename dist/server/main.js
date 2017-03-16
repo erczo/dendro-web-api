@@ -13,8 +13,6 @@
 // TODO: Ensure that we have indexes for all queries
 // TODO: Wrap service calls inside setImmediate?
 
-// TODO: Remove - was used by configuration below
-// const path = require('path')
 const feathers = require('feathers');
 const compress = require('compression');
 const cors = require('cors');
@@ -23,6 +21,7 @@ const bodyParser = require('body-parser');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
+const connections = require('./connections');
 const databases = require('./databases');
 const schemas = require('./schemas');
 const services = require('./services');
@@ -35,12 +34,10 @@ const app = feathers();
 const log = console;
 
 // Configure
-// TODO: Remove - now doing this the 0.4.x way below
-// app.configure(configuration(path.join(__dirname, '../..')))
 app.configure(configuration());
 
 // Feathers setup
-app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(databases).configure(schemas).configure(services).configure(middleware);
+app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(connections).configure(databases).configure(schemas).configure(services).configure(middleware);
 
 // TODO: Handle SIGTERM gracefully for Docker
 // SEE: http://joseoncode.com/2014/07/21/graceful-shutdown-in-node-dot-js/

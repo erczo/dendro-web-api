@@ -20,6 +20,7 @@ class Service {
 
   setup (app) {
     this.app = app
+    this.connections = app.get('connections')
   }
 
   find (params) {
@@ -145,12 +146,15 @@ class Service {
         params.query.$limit = filters.$limit - outerRes.data.length
         params.query.$sort = filters.$sort
         params.query.compact = true
+        if (query.lat) params.query.lat = query.lat
+        if (query.lng) params.query.lng = query.lng
         params.query.time = {}
         params.query.time[interval.leftOpen ? '$gt' : '$gte'] = new Date(interval.start)
         params.query.time[interval.rightOpen ? '$lt' : '$lte'] = new Date(interval.end)
 
         // Call the low-level service!
-        return this.app.service(inst.path).find(params).then(innerRes => {
+        const connection = (typeof inst.connection === 'string') && this.connections[inst.connection] ? this.connections[inst.connection] : this.app
+        return connection.service(inst.path).find(params).then(innerRes => {
           // Combine the results
           // TODO: Not the most efficient, optimize somehow?
           if (Array.isArray(innerRes.data)) outerRes.data = outerRes.data.concat(innerRes.data)

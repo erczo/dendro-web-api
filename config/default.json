@@ -6,6 +6,11 @@
       "secret": "ThYncCxLbjhin7YZBtZgda7nm0KSeT4rM0UsvpCnJXPA6sTVq6NKvsDoHjzyjkMKnB4gKDqsUx8Gg7mYsRbV9Q=="
     }
   },
+  "connections": {
+    "noaa": {
+      "url": "http://localhost:3031"
+    }
+  },
   "databases": {
     "influx": {
       "readings": {
