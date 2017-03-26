@@ -4,6 +4,8 @@ module.exports = (sequelize) => {
   const modelNames = [
     'datavalues2',
     'datavalues_borr',
+    'datavalues_day',
+    'datavalues_month',
     'datavalues_motes',
     'datavalues_sagehen',
     'datavalues_seasonal',

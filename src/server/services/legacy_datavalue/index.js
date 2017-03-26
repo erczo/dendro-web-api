@@ -69,6 +69,8 @@ module.exports = (function () {
 
           bindService(models.datavalues2, '/legacy/datavalues2')
           bindService(models.datavalues_borr, '/legacy/datavalues-borr')
+          bindService(models.datavalues_borr, '/legacy/datavalues-day')
+          bindService(models.datavalues_borr, '/legacy/datavalues-month')
           bindService(models.datavalues_motes, '/legacy/datavalues-motes')
           bindService(models.datavalues_sagehen, '/legacy/datavalues-sagehen')
           bindService(models.datavalues_seasonal, '/legacy/datavalues-seasonal')
