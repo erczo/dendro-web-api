@@ -44,7 +44,7 @@
         "type": "object",
         "minItems": 1,
         "properties": {
-          "ref_id": {
+          "identifier": {
             "type": "string"
           },
           "type": {
@@ -55,7 +55,7 @@
             "format": "uri"
           }
         },
-        "required": ["ref_id"]
+        "required": ["identifier"]
       }
     },
     "full_name": {

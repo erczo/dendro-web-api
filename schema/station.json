@@ -20,6 +20,26 @@
     "enabled": {
       "type": "boolean"
     },
+    "external_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "minItems": 1,
+        "properties": {
+          "identifier": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": ["identifier"]
+      }
+    },
     "full_name": {
       "type": "string"
     },
@@ -119,12 +139,15 @@
     "place_id": {
       "$ref": "#/definitions/objectId"
     },
+    "organization_id": {
+      "$ref": "#/definitions/objectId"
+    },
     "slug": {
       "$ref": "#/definitions/slugId"
     },
     "station_type": {
       "type": "string",
-      "enum": ["weather"]
+      "enum": ["weather","research"]
     },
     "time_zone": {
       "type": "string"
