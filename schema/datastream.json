@@ -19,6 +19,9 @@
       "items": {
         "type": "object",
         "properties": {
+          "connection": {
+            "type": "string"
+          },
           "begins_at": {
             "$ref": "#/definitions/isoDate"
           },
@@ -121,10 +124,10 @@
     },
     "source": {
       "type": "string"
-    },    
+    },
     "source_type": {
       "type": "string",
-      "enum": ["sensor","service","procedure"]
+      "enum": ["sensor", "service", "procedure"]
     },
     "state": {
       "type": "string",

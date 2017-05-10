@@ -147,7 +147,7 @@
     },
     "station_type": {
       "type": "string",
-      "enum": ["weather","research"]
+      "enum": ["weather", "research"]
     },
     "time_zone": {
       "type": "string"

@@ -55,6 +55,7 @@ class Service {
       return typeof inst.path === 'string'
     }).map(inst => {
       return {
+        connection: (typeof inst.connection === 'string') && this.connections[inst.connection] ? this.connections[inst.connection] : this,
         beginsAt: inst.begins_at instanceof Date ? inst.begins_at.getTime() : MIN_TIME,
         endsBefore: inst.ends_before instanceof Date ? inst.ends_before.getTime() : MAX_TIME,
         params: inst.params,
@@ -153,8 +154,7 @@ class Service {
         params.query.time[interval.rightOpen ? '$lt' : '$lte'] = new Date(interval.end)
 
         // Call the low-level service!
-        const connection = (typeof inst.connection === 'string') && this.connections[inst.connection] ? this.connections[inst.connection] : this.app
-        return connection.service(inst.path).find(params).then(innerRes => {
+        return inst.connection.app.service(inst.path).find(params).then(innerRes => {
           // Combine the results
           // TODO: Not the most efficient, optimize somehow?
           if (Array.isArray(innerRes.data)) outerRes.data = outerRes.data.concat(innerRes.data)
