@@ -67,9 +67,8 @@ function treeMap(obj, callback, path = '') {
     return treeMap(el, callback, `${path}/${i}`);
   });
 
-  // NOTE: Kinda a hack - we just wanna traverse plain old objects
-  // SEE: https://toddmotto.com/understanding-javascript-types-and-reliable-type-checking/
-  if (Object.prototype.toString.call(obj) === '[object Object]') {
+  // We only want to map leaf properties of data objects
+  if (obj.toString() === '[object Object]') {
     obj = Object.assign({}, obj);
     Object.keys(obj).forEach(key => {
       obj[key] = treeMap(obj[key], callback, `${path}/${key}`);
@@ -80,7 +79,3 @@ function treeMap(obj, callback, path = '') {
 }
 
 exports.treeMap = treeMap;
-
-// TODO: Remove - deprecated
-// exports.MIN_DATE = new Date(-8640000000000000)
-// exports.MAX_DATE = new Date(8640000000000000)

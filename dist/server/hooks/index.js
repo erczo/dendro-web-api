@@ -21,9 +21,9 @@ const { treeMap } = require('../lib/utils');
 const { ObjectID } = require('mongodb');
 
 // Regular expressions for data type detection
-// TODO: Capitalize these consts
-const idPathRegex = /^\/\w*_id(\/.*)?$/;
-const isoDateRegex = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})Z$/i;
+const ID_PATH_REGEX = /\/\w*_id(s)?(\/.*)?$/;
+const ID_STRING_REGEX = /^[0-9a-f]{24}$/i;
+const ISO_DATE_REGEX = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})Z$/i;
 
 let validationContext; // Singleton
 
@@ -32,39 +32,8 @@ class ValidationContext {
     this.app = app;
     this.validators = {};
     this.ajv = new Ajv({
-      // TODO: Remove - deprecated
-      // coerceTypes: true,
       loadSchema: this.loadSchema.bind(null, app)
     });
-
-    // TODO: Remove - deprecated
-    // this.ajv.addKeyword('date', {
-    //   errors: false,
-    //   validate: (schema, data, parentSchema, dataPath, parentData, parentDataProperty) => {
-    //     if (!schema) return true
-
-    //     const ms = Date.parse(data)
-    //     if (!isNaN(ms)) {
-    //       parentData[parentDataProperty] = new Date(ms) // Coerce
-    //       return true
-    //     }
-    //     return false
-    //   }
-    // })
-
-    // TODO: Remove - deprecated
-    // this.ajv.addKeyword('objectID', {
-    //   errors: false,
-    //   validate: (schema, data, parentSchema, dataPath, parentData, parentDataProperty) => {
-    //     if (!schema) return true
-
-    //     if (ObjectID.isValid(data)) {
-    //       parentData[parentDataProperty] = new ObjectID(data.toString()) // Coerce
-    //       return true
-    //     }
-    //     return false
-    //   }
-    // })
   }
 
   /**
@@ -100,8 +69,10 @@ class ValidationContext {
 function coercer(obj, path) {
   if (typeof obj !== 'string') return obj;
 
-  if (idPathRegex.test(path) && ObjectID.isValid(obj)) return new ObjectID(obj.toString());
-  if (isoDateRegex.test(obj)) {
+  // Detect IDs with regex since ObjectID.isValid() is wayyy too liberal
+  if (ID_PATH_REGEX.test(path) && ID_STRING_REGEX.test(obj)) return new ObjectID(obj.toString());
+
+  if (ISO_DATE_REGEX.test(obj)) {
     const ms = Date.parse(obj);
     if (!isNaN(ms)) return new Date(ms);
   }
@@ -121,19 +92,6 @@ exports.coerceQuery = () => {
     hook.params.query = treeMap(hook.params.query, coercer);
   };
 };
-
-// TODO: Remove - deprecated
-// exports.objectIdQuery = (field) => {
-//   return (hook) => {
-//     const value = hook.params.query[field]
-//     if (typeof value === 'undefined') return
-
-//     hook.params.query[field] = treeMap(value, (obj) => {
-//       if (ObjectID.isValid(obj)) return new ObjectID(obj.toString())
-//       return obj
-//     })
-//   }
-// }
 
 exports.parseBoolQuery = field => {
   return hook => {
