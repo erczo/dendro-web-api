@@ -1,0 +1,209 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "datapoint.json",
+  "title": "Datapoint",
+  "description": "An individual time series observation in a datastream.",
+  "type": "object",
+  "definitions": {
+    "d": {
+      "type": "object",
+      "description": "A custom data object",
+      "example": {
+        "first_field": {
+          "sub_field": "hello"
+        },
+        "second_field": 1
+      }
+    },
+    "da": {
+      "type": "array",
+      "description": "An array of custom data objects",
+      "example": [
+        {
+          "repeated_field": "value1"
+        },
+        {
+          "repeated_field": "value2"
+        }
+      ],
+      "items": {
+        "type": "object"
+      }
+    },
+    "et": {
+      "type": "object",
+      "description": "An end time object for observations that span a period of time",
+      "example": {
+        "lt": "2017-05-05T15:00:00.000Z",
+        "o": -25200,
+        "t": "2017-05-05T15:00:00.000Z"
+      }
+    },
+    "g": {
+      "$ref": "types.json#/definitions/geoObject"
+    },
+    "gc": {
+      "$ref": "types.json#/definitions/geoCoordinate"
+    },
+    "lt": {
+      "$ref": "types.json#/definitions/isoDate",
+      "description": "The datapoint's timestamp in local time"
+    },
+    "o": {
+      "$ref": "types.json#/definitions/utcOffset"
+    },
+    "q": {
+      "type": "object",
+      "description": "Data quality information",
+      "example": {
+        "code": "bad",
+        "user_id": "user1"
+      }
+    },
+    "t": {
+      "$ref": "types.json#/definitions/isoDate",
+      "description": "The datapoint's timestamp in UTC"
+    },
+    "ti": {
+      "type": "object",
+      "description": "Extended information about the time",
+      "example": {
+        "period": "Monday",
+        "zone": "PST(NA)"
+      }
+    },
+    "uv": {
+      "type": "number",
+      "description": "The scalar value converted to a unit of measure",
+      "example": 100.4
+    },
+    "v": {
+      "type": "number",
+      "description": "A scalar value",
+      "example": 38
+    },
+    "va": {
+      "type": "array",
+      "description": "An array of scalar values",
+      "example": [
+        1.2,
+        2.3,
+        3.4
+      ],
+      "items": {
+        "type": "number"
+      }
+    }
+  },
+  "properties": {
+    "d": {"$ref": "#/definitions/d"},
+    "da": {"$ref": "#/definitions/da"},
+    "et": {"$ref": "#/definitions/et"},
+    "g": {"$ref": "#/definitions/g"},
+    "gc": {"$ref": "#/definitions/gc"},
+    "lt": {"$ref": "#/definitions/lt"},
+    "o": {"$ref": "#/definitions/o"},
+    "q": {"$ref": "#/definitions/q"},
+    "t": {"$ref": "#/definitions/t"},
+    "ti": {"$ref": "#/definitions/ti"},
+    "uv": {"$ref": "#/definitions/uv"},
+    "v": {"$ref": "#/definitions/v"},
+    "va": {"$ref": "#/definitions/va"}
+  },
+  "required": [
+    "t",
+    "o"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "List datapoints",
+      "description": "Find one or more datapoints based on the query parameters.",
+      "rel": "instances",
+      "href": "datapoints",
+      "method": "GET",
+      "schema": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "datastream_id": {
+                "$ref": "types.json#/definitions/datastreamId",
+                "description": "A datastream identifier"
+              },
+              "som_id": {
+                "$ref": "types.json#/definitions/somId",
+                "description": "Attempt to convert the datapoint values to this system of measurement"
+              },
+              "uom_id": {
+                "$ref": "types.json#/definitions/uomId",
+                "description": "Attempt to convert the datapoint values to this unit of measurement"
+              }
+            }
+          },
+          {"$ref": "types.json#/definitions/datapointQueryParameters"}
+        ],
+        "required": [
+          "datastream_id"
+        ]
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/datapointPaginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "Lookup datapoints",
+      "description": "Find datapoints for up to 100 datastreams based on the query parameters. This endpoint is analogous to datastreams/lookups with the added ability to return datapoints.",
+      "rel": "instances",
+      "href": "datapoints/lookup",
+      "method": "GET",
+      "schema": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "som_id": {
+                "$ref": "types.json#/definitions/somId",
+                "description": "Do a fuzzy match on datastreams, then attempt to convert the datapoint values to this system of measurement"
+              },
+              "uom_id": {
+                "$ref": "types.json#/definitions/uomId",
+                "description": "Attempt to convert the datapoint values to this unit of measurement"
+              }
+            }
+          },
+          {"$ref": "types.json#/definitions/datastreamLookupParameters"},
+          {"$ref": "types.json#/definitions/datapointQueryParameters"}
+        ]
+      },
+      "targetSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {"$ref": "types.json#/definitions/datastreamId"},
+            "attributes": {"$ref": "types.json#/definitions/datastreamAttributes"},
+            "source": {"$ref": "types.json#/definitions/datastreamSource"},
+            "station_id": {"$ref": "types.json#/definitions/stationId"},
+            "tags": {"$ref": "types.json#/definitions/datastreamTags"},
+            "datapoints": {
+              "type": "array",
+              "items": {"rel": "self"}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

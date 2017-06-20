@@ -10,13 +10,19 @@ module.exports = function () {
 
     if (databases.mongodb && databases.mongodb.metadata) {
       app.set('serviceReady', Promise.resolve(databases.mongodb.metadata.db).then(db => {
-        app.use('/vocabularies', service({
+        const mongoService = service({
           Model: db.collection('vocabularies'),
           paginate: databases.mongodb.metadata.paginate
-        }));
+        }
+
+        // HACK: Monkey-patch the service to allow for string IDs
+        );mongoService._objectifyId = id => {
+          return id;
+        };
+        app.use('/vocabularies', mongoService
 
         // Get the wrapped service object, bind hooks
-        const vocabularyService = app.service('/vocabularies');
+        );const vocabularyService = app.service('/vocabularies');
 
         vocabularyService.before(hooks.before);
         vocabularyService.after(hooks.after);

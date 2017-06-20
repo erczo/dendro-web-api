@@ -16,14 +16,17 @@
 // TODO: Add option to ValidationContext for servicePath?
 
 const Ajv = require('ajv');
+const url = require('url');
 const { errors } = require('feathers-errors');
+const { getByDot, setByDot } = require('feathers-hooks-common');
 const { treeMap } = require('../lib/utils');
-const { ObjectID } = require('mongodb');
+const { ObjectID } = require('mongodb'
 
 // Regular expressions for data type detection
+);const BOOL_REGEX = /^(false|true)$/i;
 const ID_PATH_REGEX = /\/\w*_id(s)?(\/.*)?$/;
 const ID_STRING_REGEX = /^[0-9a-f]{24}$/i;
-const ISO_DATE_REGEX = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})Z$/i;
+const ISO_DATE_REGEX = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.([0-9]{3}))?Z$/i;
 
 let validationContext; // Singleton
 
@@ -34,15 +37,18 @@ class ValidationContext {
     this.ajv = new Ajv({
       loadSchema: this.loadSchema.bind(null, app)
     });
+
+    // TODO: Deprecate this!
+    this.ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
   }
 
   /**
    * Asynchronous function that will be used to load remote schemas when the
    * method compileAsync is used and some reference is missing.
    */
-  loadSchema(app, uri, callback) {
-    // TODO: Needs testing!!!
-    app.service('/system/schemas').get(uri, callback);
+  loadSchema(app, uri) {
+    const parsed = url.parse(uri);
+    return app.service('/system/schemas').get(parsed.pathname);
   }
 
   getValidator(schemaName) {
@@ -52,16 +58,10 @@ class ValidationContext {
     if (validate) return Promise.resolve(validate);
 
     return self.app.service('/system/schemas').get(schemaName).then(schema => {
-      return new Promise((resolve, reject) => {
-        self.ajv.compileAsync(schema, function (err, validate) {
-          if (err) {
-            reject(err);
-          } else {
-            self.validators[schemaName] = validate; // Cache in memory
-            resolve(validate);
-          }
-        });
-      });
+      return self.ajv.compileAsync(schema);
+    }).then(validate => {
+      self.validators[schemaName] = validate; // Cache in memory
+      return validate;
     });
   }
 }
@@ -69,14 +69,29 @@ class ValidationContext {
 function coercer(obj, path) {
   if (typeof obj !== 'string') return obj;
 
-  // Detect IDs with regex since ObjectID.isValid() is wayyy too liberal
-  if (ID_PATH_REGEX.test(path) && ID_STRING_REGEX.test(obj)) return new ObjectID(obj.toString());
-
+  // Date
   if (ISO_DATE_REGEX.test(obj)) {
     const ms = Date.parse(obj);
     if (!isNaN(ms)) return new Date(ms);
   }
+
+  // ObjectID (strict)
+  if (ID_PATH_REGEX.test(path) && ID_STRING_REGEX.test(obj)) return new ObjectID(obj.toString());
+
   return obj;
+}
+
+function queryCoercer(obj, path) {
+  if (typeof obj !== 'string') return obj;
+
+  // Boolean
+  if (BOOL_REGEX.test(obj)) return obj === 'true';
+
+  // Numeric
+  const n = parseFloat(obj);
+  if (!isNaN(n) && isFinite(obj)) return n;
+
+  return coercer(obj, path);
 }
 
 exports.coerce = () => {
@@ -88,31 +103,18 @@ exports.coerce = () => {
 
 exports.coerceQuery = () => {
   return hook => {
-    if (typeof hook.params.query === 'undefined') return;
-    hook.params.query = treeMap(hook.params.query, coercer);
+    if (typeof hook.params.query !== 'object') return;
+    hook.params.query = treeMap(hook.params.query, queryCoercer);
   };
 };
 
-exports.parseBoolQuery = field => {
+exports.splitList = (path, sep = ',', unique = true) => {
   return hook => {
-    hook.params.query[field] = /^(true|1)$/i.test(hook.params.query[field]);
-  };
-};
-
-exports.parseIntQuery = (field, defaultValue = 0) => {
-  return hook => {
-    hook.params.query[field] = parseInt(hook.params.query[field], 10) || defaultValue;
-  };
-};
-
-exports.splitQuery = (field, sep, op, max) => {
-  return hook => {
-    const value = hook.params.query[field];
+    const value = getByDot(hook, path);
     if (typeof value !== 'string') return;
 
-    const items = value.split(sep);
-    if (Number.isInteger(max) && items.length > max) items.length = max; // Truncate
-    if (items.length < 2) {} else if (typeof op === 'string') hook.params.query[field] = { [op]: items };else hook.params.query[field] = items;
+    const ary = value.split(sep);
+    setByDot(hook, path, unique ? [...new Set(ary)] : ary);
   };
 };
 
@@ -134,9 +136,16 @@ exports.timestamp = () => {
   };
 };
 
+exports.uniqueArray = path => {
+  return hook => {
+    const ary = getByDot(hook, path);
+    if (Array.isArray(ary)) setByDot(hook, path, [...new Set(ary)]);
+  };
+};
+
 exports.validate = schemaName => {
   return hook => {
-    if (!hook.params.provider) return; // Skip for internal calls
+    if (!hook.params.provider && hook.params.noValidate) return; // Skip?
 
     // Lazy init to ensure the async loader gets an app reference
     if (!validationContext) validationContext = new ValidationContext(hook.app);

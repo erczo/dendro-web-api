@@ -20,7 +20,7 @@ class Service {
       Adapted from feathers-sequelize, modified to use findAll (faster!)
      */
 
-    const paginate = params && typeof params.paginate !== 'undefined' ? params.paginate : this.paginate
+    const paginate = params && (typeof params.paginate !== 'undefined') ? params.paginate : this.paginate
     const getFilter = feathersQueryFilters(params.query, paginate)
     const filters = getFilter.filters
     const query = getFilter.query

@@ -1,57 +1,164 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "vocabulary.json",
+  "title": "Vocabulary",
+  "description": "A controlled vocabulary used to tag data producing entities.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "type": "string",
-      "maxLength": 50
-    },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+      "$ref": "types.json#/definitions/vocabularyId"
     },
     "description": {
-      "type": "string"
+      "$ref": "types.json#/definitions/description",
+      "example": "Terms describing how multiple values are grouped together to form a single value."
     },
     "label": {
-      "type": "string",
-      "maxLength": 50
+      "$ref": "types.json#/definitions/label",
+      "example": "Aggregate"
     },
     "scheme_id": {
-      "type": "string",
-      "maxLength": 50
+      "$ref": "types.json#/definitions/schemeId",
+      "description": "The scheme to which this vocabulary belongs"
+    },
+    "term": {
+      "type": "object",
+      "properties": {
+        "abbreviation": {
+          "type": "string",
+          "example": "avg"
+        },
+        "definition": {
+          "type": "string",
+          "example": "The sum of a collection of numbers divided by the number of numbers in the collection."
+        },
+        "label": {
+          "$ref": "types.json#/definitions/label",
+          "example": "Average"
+        },
+        "name": {
+          "type": "string",
+          "example": "Average/Mean"
+        }
+      },
+      "required": [
+        "label"
+      ]
     },
     "terms": {
       "type": "array",
       "items": {
+        "$ref": "#/definitions/term"
+      }
+    },
+    "vocabulary_type": {
+      "type": "string",
+      "description": "Whether the vocabulary is a general purpose classifier or describes a unit of measurement",
+      "example": "class",
+      "enum": ["class", "unit"]
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "description": {"$ref": "#/definitions/description"},
+    "label": {"$ref": "#/definitions/label"},
+    "scheme_id": {"$ref": "#/definitions/scheme_id"},
+    "terms": {"$ref": "#/definitions/terms"},
+    "vocabulary_type": {"$ref": "#/definitions/vocabulary_type"}
+  },
+  "required": [
+    "_id",
+    "label",
+    "scheme_id"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create vocabulary",
+      "description": "Create a new vocabulary.",
+      "rel": "self",
+      "href": "vocabularies",
+      "method": "POST",
+      "required": [
+        "_id",
+        "label",
+        "scheme_id"
+      ],
+      "schema": {
         "type": "object",
         "properties": {
-          "abbreviation": {
-            "type": "string"
-          },
-          "definition": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string",
-            "maxLength": 50
-          },
-          "name": {
-            "type": "string"
+          "_id": {"$ref": "#/definitions/_id"},
+          "description": {"$ref": "#/definitions/description"},
+          "label": {"$ref": "#/definitions/label"},
+          "scheme_id": {"$ref": "#/definitions/scheme_id"},
+          "terms": {"$ref": "#/definitions/terms"},
+          "vocabulary_type": {"$ref": "#/definitions/vocabulary_type"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update vocabulary",
+      "description": "Update an existing vocabulary.",
+      "rel": "self",
+      "href": "vocabularies/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "label",
+        "scheme_id"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "description": {"$ref": "#/definitions/description"},
+          "label": {"$ref": "#/definitions/label"},
+          "scheme_id": {"$ref": "#/definitions/scheme_id"},
+          "terms": {"$ref": "#/definitions/terms"},
+          "vocabulary_type": {"$ref": "#/definitions/vocabulary_type"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove vocabulary",
+      "description": "Remove an existing vocabulary.",
+      "rel": "self",
+      "href": "vocabularies/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Vocabulary info",
+      "description": "Return a specific vocabulary.",
+      "rel": "self",
+      "href": "vocabularies/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List vocabularies",
+      "description": "Find one or more vocabularies based on the query parameters.",
+      "rel": "instances",
+      "href": "vocabularies",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
           }
-        },
-        "required": ["label"]
+        ]
       }
     }
-  },
-  "definitions": {
-    "isoDate": {
-      "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
-    }
-  },
-  "required": ["_id", "label", "scheme_id"],
-  "additionalProperties": false
+  ]
 }

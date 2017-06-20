@@ -1,37 +1,116 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "person.json",
+  "title": "Person",
+  "description": "A data consumer, responsible party, or user of the system.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "$ref": "#/definitions/objectId"
-    },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+      "$ref": "types.json#/definitions/personId"
     },
     "email": {
-      "type": "string"
+      "$ref": "types.json#/definitions/email",
+      "example": "collin@berkeley.edu"
     },
     "full_name": {
-      "type": "string"
+      "type": "string",
+      "example": "Collin Bode"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "example": "Collin"
     }
   },
-  "definitions": {
-    "objectId": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{24}$",
-      "maxLength": 24
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "email": {"$ref": "#/definitions/email"},
+    "full_name": {"$ref": "#/definitions/full_name"},
+    "name": {"$ref": "#/definitions/name"}
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create person",
+      "description": "Create a new person.",
+      "rel": "self",
+      "href": "persons",
+      "method": "POST",
+      "required": [
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "email": {"$ref": "#/definitions/email"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "name": {"$ref": "#/definitions/name"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
     },
-    "isoDate": {
-      "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+    {
+      "title": "Update person",
+      "description": "Update an existing person.",
+      "rel": "self",
+      "href": "persons/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "email": {"$ref": "#/definitions/email"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "name": {"$ref": "#/definitions/name"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove person",
+      "description": "Remove an existing person.",
+      "rel": "self",
+      "href": "persons/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Person info",
+      "description": "Return a specific person.",
+      "rel": "self",
+      "href": "persons/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List persons",
+      "description": "Find one or more persons based on the query parameters.",
+      "rel": "instances",
+      "href": "persons",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
     }
-  },
-  "required": ["name"],
-  "additionalProperties": false
+  ]
 }

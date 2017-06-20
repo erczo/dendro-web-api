@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "full_name": "TS2008 Weather Station",
+  "is_active": true,
+  "is_stationary": true,
+  "name": "TS2008 Station",
+  "slug": "ts2008-station",
+  "station_type": "weather",
+  "time_zone": "PST",
+  "utc_offset": -28800
+}

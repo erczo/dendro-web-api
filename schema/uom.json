@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "uom.json",
+  "title": "Unit of Measurement",
+  "description": "A quantity used as a standard of measurement.",
+  "type": "object",
+  "definitions": {
+    "_id": {
+      "$ref": "types.json#/definitions/uomId"
+    },
+    "convertible_to_uom_ids": {
+      "type": "array",
+      "description": "One or more units of measurement that this UOM can be converted to",
+      "example": [
+        "degree-celsius",
+        "kelvin"
+      ],
+      "minItems": 1,
+      "items": {
+        "$ref": "types.json#/definitions/somId"
+      }
+    },
+    "library_config": {
+      "type": "object",
+      "description": "Library configurations used in conversion",
+      "example": {
+        "mathjs": {
+          "round_n": 1,
+          "unit_name": "degF"
+        }
+      }
+    },
+    "som_id": {
+      "$ref": "types.json#/definitions/somId",
+      "description": "The system of measurement to which this UOM belongs"
+    },
+    "unit_tags": {
+      "$ref": "types.json#/definitions/tags",
+      "description": "Unit vocabulary tags to which this UOM represents",
+      "example": [
+        "dt_Unit_DegreeFahrenheit"
+      ]
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "convertible_to_uom_ids": {"$ref": "#/definitions/convertible_to_uom_ids"},
+    "library_config": {"$ref": "#/definitions/library_config"},
+    "som_id": {"$ref": "#/definitions/som_id"},
+    "unit_tags": {"$ref": "#/definitions/unit_tags"}
+  },
+  "required": [
+    "_id",
+    "som_id"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create UOM",
+      "description": "Create a new unit of measurement.",
+      "rel": "self",
+      "href": "uoms",
+      "method": "POST",
+      "required": [
+        "_id",
+        "som_id"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "_id": {"$ref": "#/definitions/_id"},
+          "convertible_to_uom_ids": {"$ref": "#/definitions/convertible_to_uom_ids"},
+          "library_config": {"$ref": "#/definitions/library_config"},
+          "som_id": {"$ref": "#/definitions/som_id"},
+          "unit_tags": {"$ref": "#/definitions/unit_tags"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update UOM",
+      "description": "Update an existing unit of measurement.",
+      "rel": "self",
+      "href": "uoms/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "_id",
+        "som_id"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "convertible_to_uom_ids": {"$ref": "#/definitions/convertible_to_uom_ids"},
+          "library_config": {"$ref": "#/definitions/library_config"},
+          "som_id": {"$ref": "#/definitions/som_id"},
+          "unit_tags": {"$ref": "#/definitions/unit_tags"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove UOM",
+      "description": "Remove an existing unit of measurement.",
+      "rel": "self",
+      "href": "uoms/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "UOM info",
+      "description": "Return a specific unit of measurement.",
+      "rel": "self",
+      "href": "uoms/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List UOMs",
+      "description": "Find one or more units of measurement based on the query parameters.",
+      "rel": "instances",
+      "href": "uoms",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

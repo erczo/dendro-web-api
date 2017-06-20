@@ -1,0 +1,16 @@
+{
+  "_id": "ts1001-class2",
+  "description": "Vocabulary description.",
+  "label": "Class2",
+  "scheme_id": "ts1001",
+  "terms": [
+    {
+      "definition": "Term 2A definition.",
+      "label": "Term2A"
+    },
+    {
+      "definition": "Term 2B definition.",
+      "label": "Term2B"
+    }
+  ]
+}

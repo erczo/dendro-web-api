@@ -1,14 +1,17 @@
+const commonHooks = require('feathers-hooks-common')
 // const globalHooks = require('../../../hooks')
-// const hooks = require('feathers-hooks')
 
 exports.before = {
   // all: [],
-  // find: [],
+
+  find: commonHooks.disallow(),
+
   // get: [],
-  // create: [],
-  // update: [],
-  // patch: [],
-  // remove: []
+
+  create: commonHooks.disallow(),
+  update: commonHooks.disallow(),
+  patch: commonHooks.disallow(),
+  remove: commonHooks.disallow()
 }
 
 exports.after = {

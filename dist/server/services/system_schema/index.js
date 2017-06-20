@@ -46,10 +46,10 @@ module.exports = function () {
   return function () {
     const app = this;
 
-    app.use('/system/schemas', new Service());
+    app.use('/system/schemas', new Service()
 
     // Get the wrapped service object, bind hooks
-    const schemaService = app.service('/system/schemas');
+    );const schemaService = app.service('/system/schemas');
 
     schemaService.before(hooks.before);
     schemaService.after(hooks.after);

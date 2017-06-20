@@ -1,0 +1,19 @@
+{
+  "_id": "ts2003-unit",
+  "description": "Vocabulary description.",
+  "label": "Unit",
+  "scheme_id": "ts2003",
+  "terms": [
+    {
+      "abbreviation": "m",
+      "definition": "Meter definition.",
+      "label": "Meter"
+    },
+    {
+      "abbreviation": "mm",
+      "definition": "Millimeter definition.",
+      "label": "Millimeter"
+    }
+  ],
+  "vocabulary_type": "unit"
+}

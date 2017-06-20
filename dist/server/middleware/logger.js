@@ -1,9 +1,9 @@
 'use strict';
 
-const winston = require('winston');
+const winston = require('winston'
 
 // TODO: Eval and clean this up!
-module.exports = app => {
+);module.exports = app => {
   // Add a logger to our app object for convenience
   app.logger = winston;
 

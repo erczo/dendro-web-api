@@ -19,6 +19,7 @@ class Service {
         // Include lightweight datastream metadata
         obj._id = datastream._id;
         if (datastream.attributes) obj.attributes = datastream.attributes;
+        if (datastream.source) obj.source = datastream.source;
         if (datastream.station_id) obj.station_id = datastream.station_id;
         if (datastream.tags) obj.tags = datastream.tags;
         obj.datapoints = res;
@@ -35,10 +36,10 @@ module.exports = function () {
   return function () {
     const app = this;
 
-    app.use('/datapoints/lookup', new Service());
+    app.use('/datapoints/lookup', new Service()
 
     // Get the wrapped service object, bind hooks
-    const lookupService = app.service('/datapoints/lookup');
+    );const lookupService = app.service('/datapoints/lookup');
 
     lookupService.before(hooks.before);
     lookupService.after(hooks.after);

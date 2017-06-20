@@ -1,0 +1,10 @@
+{
+  "_id": "imp2007-foot",
+  "convertible_to_uom_ids": [
+    "met2007-meter"
+  ],
+  "som_id": "imp2007",
+  "unit_tags": [
+    "ts2007_Unit_Foot"
+  ]
+}

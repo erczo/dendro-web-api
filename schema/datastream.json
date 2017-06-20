@@ -1,178 +1,409 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "datastream.json",
+  "title": "Datastream",
+  "description": "A continuous series of datapoints indexed in time order.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/datastreamId"
     },
     "attributes": {
-      "type": "object"
+      "$ref": "types.json#/definitions/datastreamAttributes"
     },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
+    "attributes_info": {
+      "type": "object",
+      "description": "System generated information about this datastream's attributes",
+      "example": {
+        "sort": {
+          "value1": 10,
+          "value2": 0
+        },
+        "text": "10 m",
+        "unit_term": {
+          "abbreviation": "m",
+          "label": "Meter",
+          "scheme_id": "dt",
+          "vocabulary_id": "dt-unit",
+          "vocabulary_label": "Unit",
+          "vocabulary_type": "unit"
+        }
+      }
     },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+    "convertible_to_uoms": {
+      "type": "array",
+      "description": "One or more populated unit of measurement objects based on the convertible to uom identifiers",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "example": {}
+      }
     },
     "datapoints_config": {
       "type": "array",
+      "description": "Service configuration used for fetching datapoints",
       "items": {
         "type": "object",
         "properties": {
           "connection": {
-            "type": "string"
+            "type": "string",
+            "example": "legacy"
           },
           "begins_at": {
-            "$ref": "#/definitions/isoDate"
+            "$ref": "types.json#/definitions/isoDate"
           },
           "ends_before": {
-            "$ref": "#/definitions/isoDate"
+            "$ref": "types.json#/definitions/isoDate"
           },
           "params": {
-            "type": "object"
+            "type": "object",
+            "example": {
+              "query": {
+                "datastream_id": 3090,
+                "time_adjust": -28800
+              }
+            }
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "example": "/datavalues-ucnrs"
           }
         },
-        "required": ["params", "path"],
+        "required": [
+          "params",
+          "path"
+        ],
         "additionalProperties": false
       },
       "minItems": 1
     },
     "derivation_description": {
-      "type": "string"
+      "type": "string",
+      "example": "Calculated server-side based on the Celsius datastream."
     },
     "derived_from_datastream_ids": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/objectId"
+        "$ref": "types.json#/definitions/datastreamId",
+        "example": "592f155746a1b867a114e021"
       },
       "minItems": 1
     },
     "description": {
-      "type": "string"
+      "$ref": "types.json#/definitions/description",
+      "example": "Blue Oak Ranch average air temperature in degree Fahrenheit at 10 meter height."
     },
     "enabled": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether this datastream is enabled (shown) in any user interface",
+      "example": true
     },
     "external_refs": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "minItems": 1,
-        "properties": {
-          "identifier": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          }
+      "$ref": "types.json#/definitions/externalRefs",
+      "example": [
+        {
+          "identifier": "3090",
+          "type": "odm.datastreams.datastreamid"
         },
-        "required": ["identifier"]
-      }
+        {
+          "identifier": "334",
+          "type": "odm.stations.stationid",
+          "url": "http://sensor.berkeley.edu/index_ucnrs.html"
+        }
+      ]
     },
     "geo": {
-      "type": "object",
-      "properties": {
-        "coordinates": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          },
-          "minItems": 2,
-          "maxItems": 3
-        },
-        "type": {
-          "type": "string",
-          "enum": ["Point"]
-        }
-      },
-      "required": ["coordinates", "type"]
+      "$ref": "types.json#/definitions/geoPoint"
+    },
+    "hashes": {
+      "$ref": "types.json#/definitions/hashes"
     },
     "members": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "$ref": "#/definitions/objectId"
-          },
-          "person_id": {
-            "$ref": "#/definitions/objectId"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "minItems": 1
-          }
-        },
-        "required": ["roles"]
-      }
+      "$ref": "types.json#/definitions/members"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "example": "Blue Oak Ranch Avg Air Temp F 10 m"
     },
     "organization_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/organizationId",
+      "description": "The organization to which this datastream belongs"
+    },
+    "preferred_uom_ids": {
+      "type": "array",
+      "description": "One or more preferred unit of measurements for display",
+      "minItems": 1,
+      "items": {
+        "$ref": "types.json#/definitions/uomId"
+      }
+    },
+    "preferred_uoms": {
+      "type": "array",
+      "description": "One or more populated preferred unit of measurement objects based on the preferred uom identifiers",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "example": {}
+      }
     },
     "source": {
-      "type": "string"
+      "$ref": "types.json#/definitions/datastreamSource"
     },
     "source_type": {
       "type": "string",
-      "enum": ["sensor", "service", "procedure"]
+      "description": "The specific type of data producing entity",
+      "example": "sensor",
+      "enum": [
+        "sensor",
+        "service",
+        "procedure"
+      ]
     },
     "state": {
       "type": "string",
-      "enum": ["ready"]
+      "description": "The current functional state of this datastream",
+      "example": "ready",
+      "const": "ready"
     },
     "station_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/stationId",
+      "description": "A station that is the source of this datastream"
     },
     "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 1
+      "$ref": "types.json#/definitions/datastreamTags"
+    },
+    "tags_info": {
+      "type": "object",
+      "description": "System generated information about this datastream's tags",
+      "example": {
+        "resolved_terms": [
+          {
+            "label": "Average",
+            "scheme_id": "ds",
+            "vocabulary_id": "ds-aggregate",
+            "vocabulary_label": "Aggregate",
+            "vocabulary_type": "class"
+          },
+          {
+            "abbreviation": "degF",
+            "label": "DegreeFahrenheit",
+            "scheme_id": "dt",
+            "vocabulary_id": "dt-unit",
+            "vocabulary_label": "Unit",
+            "vocabulary_type": "unit"
+          }
+        ],
+        "unit_tag": "dt_Unit_DegreeFahrenheit",
+        "unit_term": {
+          "abbreviation": "degF",
+          "label": "DegreeFahrenheit",
+          "scheme_id": "dt",
+          "vocabulary_id": "dt-unit",
+          "vocabulary_label": "Unit",
+          "vocabulary_type": "unit"
+        },
+        "scheme_refs": [
+          {"_id": "ds", "tag_count": 3},
+          {"_id": "dt", "tag_count": 1}
+        ],
+        "vocabulary_refs": [
+          {"_id": "dt-aggregate"},
+          {"_id": "ds-variable"}
+        ]
+      }
     },
     "thing_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/thingId",
+      "description": "A thing that is the source of this datastream"
+    },
+    "uom": {
+      "type": "object",
+      "description": "A populated unit of measurement object based on the unit tag",
+      "example": {}
     },
     "urls": {
-      "type": "array",
-      "items": {
+      "$ref": "types.json#/definitions/urls",
+      "description": "A list of URLs for the datastream (e.g. specifications)",
+      "example": [
+        {
+          "label": "Wiki",
+          "url": "https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "attributes": {"$ref": "#/definitions/attributes"},
+    "attributes_info": {"$ref": "#/definitions/attributes_info"},
+    "convertible_to_uoms": {"$ref": "#/definitions/convertible_to_uoms"},
+    "datapoints_config": {"$ref": "#/definitions/datapoints_config"},
+    "derivation_description": {"$ref": "#/definitions/derivation_description"},
+    "derived_from_datastream_ids": {"$ref": "#/definitions/derived_from_datastream_ids"},
+    "description": {"$ref": "#/definitions/description"},
+    "enabled": {"$ref": "#/definitions/enabled"},
+    "external_refs": {"$ref": "#/definitions/external_refs"},
+    "geo": {"$ref": "#/definitions/geo"},
+    "hashes": {"$ref": "#/definitions/hashes"},
+    "members": {"$ref": "#/definitions/members"},
+    "name": {"$ref": "#/definitions/name"},
+    "organization_id": {"$ref": "#/definitions/organization_id"},
+    "preferred_uom_ids": {"$ref": "#/definitions/preferred_uom_ids"},
+    "preferred_uoms": {"$ref": "#/definitions/preferred_uoms"},
+    "source": {"$ref": "#/definitions/source"},
+    "source_type": {"$ref": "#/definitions/source_type"},
+    "state": {"$ref": "#/definitions/state"},
+    "station_id": {"$ref": "#/definitions/station_id"},
+    "tags": {"$ref": "#/definitions/tags"},
+    "tags_info": {"$ref": "#/definitions/tags_info"},
+    "thing_id": {"$ref": "#/definitions/thing_id"},
+    "uom": {"$ref": "#/definitions/uom"},
+    "urls": {"$ref": "#/definitions/urls"}
+  },
+  "required": [
+    "enabled",
+    "name"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create datastream",
+      "description": "Create a new datastream.",
+      "rel": "self",
+      "href": "datastreams",
+      "method": "POST",
+      "schema": {
         "type": "object",
         "properties": {
-          "label": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
+          "attributes": {"$ref": "#/definitions/attributes"},
+          "datapoints_config": {"$ref": "#/definitions/datapoints_config"},
+          "derivation_description": {"$ref": "#/definitions/derivation_description"},
+          "derived_from_datastream_ids": {"$ref": "#/definitions/derived_from_datastream_ids"},
+          "description": {"$ref": "#/definitions/description"},
+          "enabled": {"$ref": "#/definitions/enabled"},
+          "external_refs": {"$ref": "#/definitions/external_refs"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "members": {"$ref": "#/definitions/members"},
+          "name": {"$ref": "#/definitions/name"},
+          "organization_id": {"$ref": "#/definitions/organization_id"},
+          "preferred_uom_ids": {"$ref": "#/definitions/preferred_uom_ids"},
+          "source": {"$ref": "#/definitions/source"},
+          "source_type": {"$ref": "#/definitions/source_type"},
+          "state": {"$ref": "#/definitions/state"},
+          "station_id": {"$ref": "#/definitions/station_id"},
+          "tags": {"$ref": "#/definitions/tags"},
+          "thing_id": {"$ref": "#/definitions/thing_id"},
+          "urls": {"$ref": "#/definitions/urls"}
+        },
+        "required": [
+          "enabled",
+          "name"
+        ]
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update datastream",
+      "description": "Update an existing datastream.",
+      "rel": "self",
+      "href": "datastreams/{#/definitions/_id}",
+      "method": "PUT",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "attributes": {"$ref": "#/definitions/attributes"},
+          "datapoints_config": {"$ref": "#/definitions/datapoints_config"},
+          "derivation_description": {"$ref": "#/definitions/derivation_description"},
+          "derived_from_datastream_ids": {"$ref": "#/definitions/derived_from_datastream_ids"},
+          "description": {"$ref": "#/definitions/description"},
+          "enabled": {"$ref": "#/definitions/enabled"},
+          "external_refs": {"$ref": "#/definitions/external_refs"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "members": {"$ref": "#/definitions/members"},
+          "name": {"$ref": "#/definitions/name"},
+          "organization_id": {"$ref": "#/definitions/organization_id"},
+          "preferred_uom_ids": {"$ref": "#/definitions/preferred_uom_ids"},
+          "source": {"$ref": "#/definitions/source"},
+          "source_type": {"$ref": "#/definitions/source_type"},
+          "state": {"$ref": "#/definitions/state"},
+          "station_id": {"$ref": "#/definitions/station_id"},
+          "tags": {"$ref": "#/definitions/tags"},
+          "thing_id": {"$ref": "#/definitions/thing_id"},
+          "urls": {"$ref": "#/definitions/urls"}
+        },
+        "required": [
+          "enabled",
+          "name"
+        ]
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove datastream",
+      "description": "Remove an existing datastream.",
+      "rel": "self",
+      "href": "datastreams/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Datastream info",
+      "description": "Return a specific datastream.",
+      "rel": "self",
+      "href": "datastreams/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List datastreams",
+      "description": "Find one or more datastreams based on the query parameters.",
+      "rel": "instances",
+      "href": "datastreams",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
           }
-        }
+        ]
+      }
+    },
+    {
+      "title": "Lookup datastreams",
+      "description": "Find up to 100 datastreams based on the query parameters (ordered by _id). This endpoint evaluates the _id, source, and station_id parameters in a logical disjunction (OR). The attributes_exist and tags parameters can be added to further restrict datastreams selected by the source and station_id parameters.",
+      "rel": "instances",
+      "href": "datastreams/lookup",
+      "method": "GET",
+      "schema": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "som_id": {
+                "$ref": "types.json#/definitions/somId",
+                "description": "Do a fuzzy match and return a unique set of datastreams that are already in or could be converted to this system of measurement"
+              }
+            }
+          },
+          {"$ref": "types.json#/definitions/datastreamLookupParameters"}
+        ]
+      },
+      "targetSchema": {
+        "type": "array",
+        "items": {"rel": "self"}
       }
     }
-  },
-  "definitions": {
-    "objectId": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{24}$",
-      "maxLength": 24
-    },
-    "isoDate": {
-      "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
-    }
-  },
-  "required": ["enabled", "name"],
-  "additionalProperties": false
+  ]
 }

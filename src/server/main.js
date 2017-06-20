@@ -51,13 +51,19 @@ app.use(compress())
 
 // TODO: Handle SIGTERM gracefully for Docker
 // SEE: http://joseoncode.com/2014/07/21/graceful-shutdown-in-node-dot-js/
-Promise.resolve(app.get('middlewareReady')).then(() => {
+app.set('serverReady', Promise.resolve(app.get('middlewareReady')).then(() => {
   const port = app.get('port')
   const server = app.listen(port)
 
-  server.once('listening', () =>
-    log.info('Feathers application started on %s:%s', app.get('host'), port)
-  )
+  return new Promise((resolve, reject) => {
+    server.once('error', reject)
+    server.once('listening', () => {
+      log.info('Feathers application started on %s:%s', app.get('host'), port)
+      resolve(server)
+    })
+  })
 }).catch(err => {
   log.error(err)
-})
+}))
+
+exports.app = app // For testing

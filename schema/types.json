@@ -1,0 +1,536 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "types.json",
+  "hidden": true,
+  "definitions": {
+    "countryCode3": {
+      "type": "string",
+      "description": "An ISO 3166-1 alpha-3 country code",
+      "example": "USA"
+    },
+    "createdAt": {
+      "$ref": "#/definitions/isoDate",
+      "description": "Timestamp of when the document was created"
+    },
+    "datastreamId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e020"
+    },
+    "datapointPaginationMeta": {
+      "type": "object",
+      "properties": {
+        "limit" : {"$ref": "#/definitions/paginationLimit"}
+      }
+    },
+    "datapointQueryParameters": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Return datapoints for the given latitude",
+          "example": 37.3382082
+        },
+        "lon": {
+          "type": "number",
+          "description": "Return datapoints for the given longitude (alias 'lng')",
+          "example": -121.8863286
+        },
+        "time[$op]": {
+          "$ref": "types.json#/definitions/isoDate",
+          "description": "Filter on time using query operators: $lt, $lte, $gt, $gte",
+          "example": "2017-05-11T00:00:00Z"
+        },
+        "time_local": {
+          "type": "boolean",
+          "description": "Whether the time parameter is in local time",
+          "default": false,
+          "example": true
+        },
+        "$limit": {"$ref": "#/definitions/queryLimit"},
+        "$sort[time]": {
+          "$ref": "#/definitions/querySort",
+          "description": "Specify the sort order",
+          "default": -1
+        }
+      }
+    },
+    "datastreamAttributes": {
+      "type": "object",
+      "description": "Any custom attributes for the datastream",
+      "example": {
+        "height": {
+          "unit_tag": "dt_Unit_Meter",
+          "value": 10
+        }
+      }
+    },
+    "datastreamLookupParameters": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "array",
+          "description": "A comma separated list of datastream identifiers",
+          "example": ["592f155746a1b867a114e020", "592f155746a1b867a114e021"],
+          "items": {"$ref": "types.json#/definitions/datastreamId"}
+        },
+        "attributes_exists": {
+          "type": "boolean",
+          "description": "Whether the datastreams have attributes or not",
+          "example": false
+        },
+        "source": {
+          "type": "array",
+          "description": "A comma separated list of datastream sources (can be combined with attributes_exist and tags)",
+          "example": ["edu.berkeley.sensor.ucnrs.legacy.odm", "gov.noaa.nws.ndfd.rest.xml"],
+          "items": {"type": "string"}
+        },
+        "station_id": {
+          "type": "array",
+          "description": "A comma separated list of station identifiers (can be combined with attributes_exist and tags)",
+          "example": ["592f155746a1b867a114e060", "592f155746a1b867a114e061"],
+          "items": {"$ref": "types.json#/definitions/stationId"}
+        },
+        "tags": {
+          "type": "string",
+          "description": "A dot separated list of vocabulary tags",
+          "example": "ds_Aggregate_Average.ds_Medium_Air.ds_Variable_Temperature"
+        },
+        "tags_exact": {
+          "type": "boolean",
+          "description": "Perform an EXACT match on the given vocabulary tags",
+          "default": false,
+          "example": true
+        }
+      }
+    },
+    "datastreamSource": {
+      "type": "string",
+      "example": "edu.berkeley.sensor.ucnrs.legacy.odm"
+    },
+    "datastreamTags": {
+      "$ref": "#/definitions/tags",
+      "example": [
+        "ds_Aggregate_Average",
+        "ds_Medium_Air",
+        "ds_Variable_Temperature",
+        "dt_Unit_DegreeFahrenheit"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Text describing this document",
+      "example": "Data is a precious thing and will last longer than the systems themselves (Tim Berners-Lee)."
+    },
+    "email": {
+      "type": "string",
+      "description": "The primary contact email address",
+      "example": "collin@berkeley.edu"
+    },
+    "externalLinks": {
+      "type": "array",
+      "description": "A list of external site links to display in any user interface",
+      "items": {
+        "type": "object",
+        "minItems": 1,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {"$ref": "#/definitions/url"}
+        },
+        "required": [
+          "title",
+          "url"
+        ]
+      }
+    },
+    "externalRefs": {
+      "type": "array",
+      "description": "A list of external or foreign keys associated with this document",
+      "items": {
+        "type": "object",
+        "minItems": 1,
+        "properties": {
+          "identifier": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {"$ref": "#/definitions/url"}
+        }
+      }
+    },
+    "geoCoordinate": {
+      "type": "array",
+      "description": "A GeoJSON coordinate (i.e. longitude, latitude, altitude)",
+      "example": [
+        -121.73638,
+        37.381666,
+        574.548
+      ],
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "geoObject": {
+      "type": "object",
+      "description": "A GeoJSON object",
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "example": [
+            -121.8863286,
+            37.3382082
+          ],
+          "minItems": 2,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "type": {
+          "type": "string",
+          "example": "Point",
+          "const": "Point"
+        }
+      },
+      "required": [
+        "coordinates",
+        "type"
+      ]
+    },
+    "geoPoint": {
+      "type": "object",
+      "description": "A GeoJSON single position (i.e. longitude, latitude, altitude)",
+      "properties": {
+        "coordinates": {
+          "$ref": "#/definitions/geoCoordinate"
+        },
+        "type": {
+          "type": "string",
+          "example": "Point",
+          "const": "Point"
+        }
+      },
+      "required": [
+        "coordinates",
+        "type"
+      ]
+    },
+    "hashes": {
+      "type": "array",
+      "description": "System generated hashes for uniquing and indexing this document",
+      "example": [
+        {
+          "key": "doc",
+          "str": "A54D88E06612D820BC3BE72877C74F257B561B19",
+          "scheme_id": "ds"
+        }
+      ]
+    },
+    "isoDate": {
+      "type": "string",
+      "example": "2017-05-28T09:50:23.106Z",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+    },
+    "label": {
+      "type": "string",
+      "description": "A metadata label assigned to entities and used to construct tags",
+      "maxLength": 50,
+      "example": "Variable"
+    },
+    "media": {
+      "type": "array",
+      "description": "Image and video resources at specific sizes and pixel densities",
+      "example": [
+        {
+          "type": "photo",
+          "sizes": {
+            "thumb": {
+              "h": 60,
+              "w": 60,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_60,w_60/photo.jpg"
+            },
+            "thumb_2x": {
+              "h": 120,
+              "w": 120,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_120,w_120/photo.jpg"
+            },
+            "small": {
+              "h": 240,
+              "w": 240,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_240,w_240/photo.jpg"
+            },
+            "small_2x": {
+              "h": 480,
+              "w": 480,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_480,w_480/photo.jpg"
+            },
+            "medium": {
+              "h": 480,
+              "w": 480,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_480,w_480/photo.jpg"
+            },
+            "medium_2x": {
+              "h": 960,
+              "w": 960,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_960,w_960/photo.jpg"
+            },
+            "large": {
+              "h": 1080,
+              "w": 1080,
+              "url": "http://res.cloudinary.com/dendro/image/upload/c_fill,g_center,h_1080,w_1080/photo.jpg"
+            }
+          }
+        }
+      ],
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "sizes": {
+            "type": "object",
+            "properties": {
+              "thumb": {"$ref": "#/definitions/mediaSize"},
+              "thumb_2x": {"$ref": "#/definitions/mediaSize"},
+              "small": {"$ref": "#/definitions/mediaSize"},
+              "small_2x": {"$ref": "#/definitions/mediaSize"},
+              "medium": {"$ref": "#/definitions/mediaSize"},
+              "medium_2x": {"$ref": "#/definitions/mediaSize"},
+              "large": {"$ref": "#/definitions/mediaSize"}
+            },
+            "required": [
+              "large",
+              "medium",
+              "small",
+              "thumb"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "const": "photo"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sizes",
+          "type"
+        ]
+      }
+    },
+    "mediaSize": {
+      "type": "object",
+      "properties": {
+        "h": {
+          "type": "integer"
+        },
+        "w": {
+          "type": "integer"
+        },
+        "url": {"$ref": "#/definitions/url"}
+      }
+    },
+    "members": {
+      "type": "array",
+      "description": "Access control and role assignments",
+      "example": [
+        {
+          "organization_id": "592f155746a1b867a114e030",
+          "roles": [
+            "contact"
+          ]
+        },
+        {
+          "person_id": "592f155746a1b867a114e040",
+          "roles": [
+            "admin",
+            "contact"
+          ]
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "organization_id": {"$ref": "#/definitions/organizationId"},
+          "person_id": {"$ref": "#/definitions/personId"},
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "roles"
+        ]
+      }
+    },
+    "objectId": {
+      "type": "string",
+      "description": "The unique document identifier",
+      "example": "592f155746a1b867a114e010",
+      "pattern": "^[a-fA-F0-9]{24}$",
+      "maxLength": 24
+    },
+    "organizationId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e030"
+    },
+    "personId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e040"
+    },
+    "paginationLimit" : {
+      "type": "integer",
+      "description": "Maximum number of items per page",
+      "example": 10
+    },
+    "paginationMeta": {
+      "type": "object",
+      "properties": {
+        "total" : {"$ref": "#/definitions/paginationTotal"},
+        "limit" : {"$ref": "#/definitions/paginationLimit"},
+        "skip" : {"$ref": "#/definitions/paginationSkip"}
+      }
+    },
+    "paginationSkip" : {
+      "type": "integer",
+      "description": "Number of skipped items (offset)",
+      "example": 2
+    },
+    "paginationTotal" : {
+      "type": "integer",
+      "description": "Total number of records",
+      "example": 1
+    },
+    "placeId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e050"
+    },
+    "queryField" : {
+      "description": "Filter where a field is equal to the supplied value",
+      "example": "field_value"
+    },
+    "queryFieldOp" : {
+      "description": "Filter using advanced query operators: $in, $nin, $lt, $lte, $gt, $gte, $ne, and $or",
+      "example": "field_value"
+    },
+    "queryLimit" : {
+      "type": "integer",
+      "description": "Specify the maximum number of items to return",
+      "example": 10,
+      "default": 20,
+      "maximum": 2000
+    },
+    "querySelect" : {
+      "enum": [1],
+      "description": "Pick which fields to include in the results",
+      "example": 1
+    },
+    "querySkip" : {
+      "type": "integer",
+      "description": "Specify the number of items to skip over (offset)",
+      "example": 2,
+      "default": 0
+    },
+    "querySort" : {
+      "enum": [-1, 1],
+      "description": "Specify the fields to sort by and the respective sort order",
+      "example": 1
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "field_name": {"$ref": "#/definitions/queryField"},
+        "field_name[$op]": {"$ref": "#/definitions/queryFieldOp"},
+        "$limit": {"$ref": "#/definitions/queryLimit"},
+        "$skip": {"$ref": "#/definitions/querySkip"},
+        "$sort[field_name]": {"$ref": "#/definitions/querySort"},
+        "$select[field_name]":  {"$ref": "#/definitions/querySelect"}
+      }
+    },
+    "schemeId": {
+      "$ref": "types.json#/definitions/stringId",
+      "example": "ds"
+    },
+    "slug": {
+      "type": "string",
+      "description": "A human-readable and URL-friendly name used to retrieve this document's page or resource",
+      "example": "document-name",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "somId": {
+      "$ref": "types.json#/definitions/stringId",
+      "example": "imp"
+    },
+    "stationId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e060"
+    },
+    "stringId": {
+      "type": "string",
+      "description": "The unique document identifier",
+      "example": "document-id",
+      "maxLength": 50
+    },
+    "tags": {
+      "type": "array",
+      "description": "One or more tags in the format: <schemeId>&#95;<vocabularyLabel>&#95;<termLabel>",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "thingId": {
+      "$ref": "types.json#/definitions/objectId",
+      "example": "592f155746a1b867a114e070"
+    },
+    "timeZone": {
+      "type": "string",
+      "description": "A time zone abbreviation",
+      "example": "PST"
+    },
+    "uomId": {
+      "$ref": "types.json#/definitions/stringId",
+      "example": "degree-fahrenheit"
+    },
+    "updatedAt": {
+      "$ref": "#/definitions/isoDate",
+      "description": "Last updated timestamp"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "urls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "url": {"$ref": "#/definitions/url"}
+        },
+        "required": [
+          "url"
+        ]
+      }
+    },
+    "utcOffset": {
+      "type": "integer",
+      "description": "An offset in seconds between the time zone and UTC",
+      "example": -28800
+    },
+    "vocabularyId": {
+      "$ref": "types.json#/definitions/stringId",
+      "example": "ds-aggregate"
+    }
+  }
+}

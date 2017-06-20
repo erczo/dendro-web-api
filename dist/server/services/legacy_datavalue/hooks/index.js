@@ -1,13 +1,13 @@
 'use strict';
 
+const commonHooks = require('feathers-hooks-common');
 const globalHooks = require('../../../hooks');
-const hooks = require('feathers-hooks');
 const { treeMap } = require('../../../lib/utils');
 
 exports.before = {
   // all: [],
 
-  find: [globalHooks.parseBoolQuery('compact'), globalHooks.parseIntQuery('time_adjust'), globalHooks.coerceQuery(), hook => {
+  find: [globalHooks.coerceQuery(), hook => {
     /*
       Timeseries services must:
       * Support a 'compact' query field
@@ -32,13 +32,13 @@ exports.before = {
     if (typeof query.$sort === 'object' && typeof query.$sort.time !== 'undefined') {
       query.$sort = { local_date_time: query.$sort.time };
     }
-  }, hooks.removeQuery('compact', 'time', 'time_adjust')]
+  }, commonHooks.removeQuery('compact', 'time', 'time_adjust')],
 
-  // get: [],
-  // create: [],
-  // update: [],
-  // patch: [],
-  // remove: []
+  get: commonHooks.disallow(),
+  create: commonHooks.disallow(),
+  update: commonHooks.disallow(),
+  patch: commonHooks.disallow(),
+  remove: commonHooks.disallow()
 };
 
 exports.after = {

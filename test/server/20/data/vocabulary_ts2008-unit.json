@@ -1,0 +1,19 @@
+{
+  "_id": "ts2008-unit",
+  "description": "Vocabulary description.",
+  "label": "Unit",
+  "scheme_id": "ts2008",
+  "terms": [
+    {
+      "abbreviation": "ft",
+      "definition": "Foot definition.",
+      "label": "Foot"
+    },
+    {
+      "abbreviation": "m",
+      "definition": "Meter definition.",
+      "label": "Meter"
+    }
+  ],
+  "vocabulary_type": "unit"
+}

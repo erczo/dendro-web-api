@@ -1,0 +1,17 @@
+{
+  "_id": "ts2003-class",
+  "description": "Vocabulary description.",
+  "label": "Class",
+  "scheme_id": "ts2003",
+  "terms": [
+    {
+      "definition": "Term A definition.",
+      "label": "TermA"
+    },
+    {
+      "definition": "Term B definition.",
+      "label": "TermB"
+    }
+  ],
+  "vocabulary_type": "class"
+}

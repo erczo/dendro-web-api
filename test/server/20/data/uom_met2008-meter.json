@@ -1,0 +1,17 @@
+{
+  "_id": "met2008-meter",
+  "convertible_to_uom_ids": [
+    "imp2008-foot",
+    "met2008-centimeter"
+  ],
+  "library_config": {
+    "mathjs": {
+      "round_n": 1,
+      "unit_name": "m"
+    }
+  },
+  "som_id": "met2008",
+  "unit_tags": [
+    "ts2008_Unit_Meter"
+  ]
+}

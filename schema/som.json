@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "som.json",
+  "title": "System of Measurement",
+  "description": "A collection of units of measurement.",
+  "type": "object",
+  "definitions": {
+    "_id": {
+      "$ref": "types.json#/definitions/somId"
+    },
+    "fallback_som_ids": {
+      "type": "array",
+      "description": "The order of precedence for selecting another system when this SOM is unavailable",
+      "example": [
+        "met"
+      ],
+      "minItems": 1,
+      "items": {
+        "$ref": "types.json#/definitions/somId"
+      }
+    },
+    "name": {
+      "type": "string",
+      "example": "English"
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "fallback_som_ids": {"$ref": "#/definitions/fallback_som_ids"},
+    "name": {"$ref": "#/definitions/name"}
+  },
+  "required": [
+    "_id",
+    "name"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create SOM",
+      "description": "Create a new system of measurement.",
+      "rel": "self",
+      "href": "soms",
+      "method": "POST",
+      "required": [
+        "_id",
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "_id": {"$ref": "#/definitions/_id"},
+          "fallback_som_ids": {"$ref": "#/definitions/fallback_som_ids"},
+          "name": {"$ref": "#/definitions/name"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update SOM",
+      "description": "Update an existing system of measurement.",
+      "rel": "self",
+      "href": "soms/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {"$ref": "#/definitions/name"},
+          "fallback_som_ids": {"$ref": "#/definitions/fallback_som_ids"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove SOM",
+      "description": "Remove an existing system of measurement.",
+      "rel": "self",
+      "href": "soms/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "SOM info",
+      "description": "Return a specific system of measurement.",
+      "rel": "self",
+      "href": "soms/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List SOMs",
+      "description": "Find one or more systems of measurement based on the query parameters.",
+      "rel": "instances",
+      "href": "soms",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

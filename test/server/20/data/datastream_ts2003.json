@@ -1,0 +1,82 @@
+{
+  "attributes": {
+    "height": {
+      "unit_tag": "ts2003_Unit_Meter",
+      "value": 10
+    }
+  },
+  "datapoints_config": [
+    {
+      "begins_at": "2017-05-28T09:50:23.106Z",
+      "connection": "legacy",
+      "ends_before": "2017-05-28T09:50:23.106Z",
+      "params": {
+        "query": {
+          "datastream_id": 3090,
+          "time_adjust": -28800
+        }
+      },
+      "path": "/datavalues-ucnrs"
+    }
+  ],
+  "derivation_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.",
+  "derived_from_datastream_ids": [
+    "592f155746a1b867a114e021"
+  ],
+  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.",
+  "enabled": true,
+  "external_refs": [
+    {
+      "identifier": "3090",
+      "type": "odm.datastreams.datastreamid"
+    },
+    {
+      "identifier": "334",
+      "type": "odm.stations.stationid",
+      "url": "http://sensor.berkeley.edu/index_ucnrs.html"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -121.73638,
+      37.381666,
+      574.548
+    ],
+    "type": "Point"
+  },
+  "members": [
+    {
+      "organization_id": "592f155746a1b867a114e030",
+      "roles": [
+        "contact"
+      ]
+    },
+    {
+      "person_id": "592f155746a1b867a114e040",
+      "roles": [
+        "admin",
+        "contact"
+      ]
+    }
+  ],
+  "name": "TS2003 Datastream",
+  "organization_id": "592f155746a1b867a114e030",
+  "preferred_uom_ids": [
+    "imp2003-a"
+  ],
+  "source": "science.dendra.test.ts2003",
+  "source_type": "sensor",
+  "state": "ready",
+  "station_id": "592f155746a1b867a114e060",
+  "tags": [
+    "ts2003_Class_TermA",
+    "ts2003_Unit_Meter"
+  ],
+  "thing_id": "592f155746a1b867a114e070",
+  "urls": [
+    {
+      "label": "Wiki",
+      "url": "https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature"
+    }
+  ]
+}

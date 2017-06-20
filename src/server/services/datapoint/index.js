@@ -10,8 +10,7 @@ const MAX_TIME = Date.UTC(3000, 0, 1)
 /**
  * High-level service that provides a standard facade to retrieve datapoints.
  *
- * This service forwards 'find' requests to one or more low-level services
- * registered under datapoints_config.
+ * This service forwards 'find' requests to one or more low-level services registered under datapoints_config.
  */
 class Service {
   constructor (options) {
@@ -27,15 +26,14 @@ class Service {
     /*
       Standard Feathers service preamble, adapted from feathers-sequelize.
      */
-
-    const paginate = params && typeof params.paginate !== 'undefined' ? params.paginate : this.paginate
+    const paginate = params && (typeof params.paginate !== 'undefined') ? params.paginate : this.paginate
     const getFilter = feathersQueryFilters(params.query, paginate)
     const filters = getFilter.filters
     const query = getFilter.query
 
     /*
-      Efficiently merge config instances in a linear traversal by evaluating
-      each instance's date/time interval [begins_at, ends_before).
+      Efficiently merge config instances in a linear traversal by evaluating each instance's date/time
+      interval [begins_at, ends_before).
 
       Steps:
       1. Filter instances based on required fields, enabled, etc.
@@ -96,7 +94,6 @@ class Service {
     /*
       Construct a query interval based on 'time' query field.
      */
-
     const queryInterval = new Interval(MIN_TIME, MAX_TIME, false, true)
 
     if (typeof query.time === 'object') {
@@ -120,10 +117,9 @@ class Service {
     }
 
     /*
-      Iterate over config instances; set-up a promise chain to query low-level
-      services where the query interval intersects the instance's interval.
+      Iterate over config instances; set up a promise chain to query low-level services where the query interval
+      intersects the instance's interval.
      */
-
     let result = Promise.resolve({
       limit: filters.$limit,
       data: []
@@ -135,10 +131,10 @@ class Service {
 
       result = result.then(outerRes => {
         /*
-          Construct a low-level query using the clamped interval and config
-          instance fields. Do this only if we haven't reached our limit.
-         */
+          Construct a low-level query using the clamped interval and config instance fields.
 
+          Do this only if we haven't reached our limit.
+         */
         if (outerRes.data.length >= filters.$limit) return outerRes
 
         // NOTE: The following may modify the in-memory datastream object
@@ -148,6 +144,7 @@ class Service {
         params.query.$sort = filters.$sort
         params.query.compact = true
         if (query.lat) params.query.lat = query.lat
+        if (query.lon) params.query.lon = query.lon
         if (query.lng) params.query.lng = query.lng
         params.query.time = {}
         params.query.time[interval.leftOpen ? '$gt' : '$gte'] = new Date(interval.start)

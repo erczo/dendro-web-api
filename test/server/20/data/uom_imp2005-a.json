@@ -1,0 +1,17 @@
+{
+  "_id": "imp2005-a",
+  "convertible_to_uom_ids": [
+    "imp2005-b",
+    "imp2005-c"
+  ],
+  "library_config": {
+    "mathjs": {
+      "round_n": 1,
+      "unit_name": "degF"
+    }
+  },
+  "som_id": "imp2005",
+  "unit_tags": [
+    "dt_Unit_DegreeFahrenheit"
+  ]
+}

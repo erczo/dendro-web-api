@@ -6,6 +6,8 @@
  * @module lib/utils
  */
 
+const crypto = require('crypto')
+
 /**
  * Basic interval class; adapted from:
  * http://docs.sympy.org/latest/modules/sets.html
@@ -56,6 +58,19 @@ class Interval {
 }
 
 exports.Interval = Interval
+
+/**
+ * Simple, promise-based hash generator.
+ */
+function asyncHashDigest (data, algorithm = 'sha1', encoding = 'hex') {
+  return new Promise((resolve) => {
+    setImmediate(() => {
+      resolve(crypto.createHash(algorithm).update(data).digest(encoding))
+    })
+  })
+}
+
+exports.asyncHashDigest = asyncHashDigest
 
 /**
  * Works like Array.map, expect for objects.

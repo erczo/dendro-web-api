@@ -1,0 +1,14 @@
+{
+  "_id": "ts1002-unit",
+  "description": "Vocabulary description.",
+  "label": "Unit",
+  "scheme_id": "ts1002",
+  "terms": [
+    {
+      "abbreviation": "(m)",
+      "definition": "Meter definition.",
+      "label": "Meter"
+    }
+  ],
+  "vocabulary_type": "unit"
+}

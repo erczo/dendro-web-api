@@ -1,215 +1,264 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "station.json",
+  "title": "Station",
+  "description": "An observation post where data is measured and collected.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/objectId"
     },
     "activated_at": {
-      "$ref": "#/definitions/isoDate"
+      "$ref": "types.json#/definitions/isoDate",
+      "description": "When this station was first put into service"
     },
     "deactivated_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+      "$ref": "types.json#/definitions/isoDate",
+      "description": "When this station was taken out of service"
     },
     "enabled": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether this station is enabled (shown) in any user interface",
+      "example": true
+    },
+    "external_links": {
+      "$ref": "types.json#/definitions/externalLinks",
+      "example": [
+        {
+          "title": "Sensor database",
+          "url": "http://sensor.berkeley.edu/index_ucnrs.html"
+        }
+      ]
     },
     "external_refs": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "minItems": 1,
-        "properties": {
-          "identifier": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "required": ["identifier"]
-      }
+      "$ref": "types.json#/definitions/externalRefs",
+      "example": [
+        {
+          "identifier": "334",
+          "type": "odm.stations.stationid",
+          "url": "http://sensor.berkeley.edu/index_ucnrs.html"
+        }
+      ]
     },
     "full_name": {
-      "type": "string"
+      "type": "string",
+      "example": "Blue Oak Ranch Reserve Weather Station"
     },
     "geo": {
-      "type": "object",
-      "properties": {
-        "coordinates": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 3,
-          "items": {
-            "type": "number"
-          }
-        },
-        "type": {
-          "type": "string",
-          "enum": ["Point"]
-        }
-      },
-      "required": ["coordinates", "type"]
+      "$ref": "types.json#/definitions/geoPoint"
+    },
+    "hashes": {
+      "$ref": "types.json#/definitions/hashes"
     },
     "is_active": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether this station is in service or has been taken out of service",
+      "example": true
     },
     "is_stationary": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether this station has a permanent location or is mobile",
+      "example": true
     },
     "media": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "properties": {
-          "sizes": {
-            "type": "object",
-            "properties": {
-              "large": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "medium": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "medium_2x": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "small": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "small_2x": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "thumb": {
-                "$ref": "#/definitions/mediaSize"
-              },
-              "thumb_2x": {
-                "$ref": "#/definitions/mediaSize"
-              }
-            },
-            "required": ["large", "medium", "small", "thumb"]
-          },
-          "type": {
-            "type": "string",
-            "enum": ["photo"]
-          },
-          "caption": {
-            "type": "string"
-          }
-        },
-        "required": ["sizes", "type"]
-      }
+      "$ref": "types.json#/definitions/media"
     },
     "members": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "$ref": "#/definitions/objectId"
-          },
-          "person_id": {
-            "$ref": "#/definitions/objectId"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "minItems": 1
-          }
-        },
-        "required": ["roles"]
-      }
+      "$ref": "types.json#/definitions/members"
     },
     "name": {
-      "type": "string"
-    },
-    "place_id": {
-      "$ref": "#/definitions/objectId"
+      "type": "string",
+      "example": "Blue Oak Ranch"
     },
     "organization_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/organizationId",
+      "description": "The organization to which a station belongs"
+    },
+    "place_id": {
+      "$ref": "types.json#/definitions/placeId",
+      "description": "The place to where a station is generally located"
     },
     "slug": {
-      "$ref": "#/definitions/slugId"
+      "$ref": "types.json#/definitions/slug",
+      "example": "blue-oak-ranch"
     },
     "station_type": {
       "type": "string",
-      "enum": ["weather", "research"]
-    },
-    "time_zone": {
-      "type": "string"
+      "description": "The specific type of station (e.g. 'research', 'weather')",
+      "example": "weather"
     },
     "thing_ids": {
       "type": "array",
+      "description": "One or more things (e.g. instruments or other equipment) associated with this station",
       "minItems": 1,
       "items": {
-        "$ref": "#/definitions/objectId"
+        "$ref": "types.json#/definitions/thingId"
       }
+    },
+    "time_zone": {
+      "$ref": "types.json#/definitions/timeZone"
     },
     "utc_offset": {
-      "type": "number"
-    },
-    "external_links": {
-      "type": "array",
-      "items": {
+      "$ref": "types.json#/definitions/utcOffset"
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "activated_at": {"$ref": "#/definitions/activated_at"},
+    "deactivated_at": {"$ref": "#/definitions/deactivated_at"},
+    "enabled": {"$ref": "#/definitions/enabled"},
+    "external_links": {"$ref": "#/definitions/external_links"},
+    "external_refs": {"$ref": "#/definitions/external_refs"},
+    "full_name": {"$ref": "#/definitions/full_name"},
+    "geo": {"$ref": "#/definitions/geo"},
+    "hashes": {"$ref": "#/definitions/hashes"},
+    "is_active": {"$ref": "#/definitions/is_active"},
+    "is_stationary": {"$ref": "#/definitions/is_stationary"},
+    "media": {"$ref": "#/definitions/media"},
+    "members": {"$ref": "#/definitions/members"},
+    "name": {"$ref": "#/definitions/name"},
+    "organization_id": {"$ref": "#/definitions/organization_id"},
+    "place_id": {"$ref": "#/definitions/place_id"},
+    "slug": {"$ref": "#/definitions/slug"},
+    "station_type": {"$ref": "#/definitions/station_type"},
+    "thing_ids": {"$ref": "#/definitions/thing_ids"},
+    "time_zone": {"$ref": "#/definitions/time_zone"},
+    "utc_offset": {"$ref": "#/definitions/utc_offset"}
+  },
+  "required": [
+    "enabled",
+    "is_active",
+    "is_stationary",
+    "name",
+    "station_type",
+    "time_zone",
+    "utc_offset"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create station",
+      "description": "Create a new station.",
+      "rel": "self",
+      "href": "stations",
+      "method": "POST",
+      "required": [
+        "enabled",
+        "is_active",
+        "is_stationary",
+        "name",
+        "station_type",
+        "time_zone",
+        "utc_offset"
+      ],
+      "schema": {
         "type": "object",
-        "minItems": 1,
         "properties": {
-          "title": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "required": ["title", "url"]
-      }
-    }
-  },
-  "definitions": {
-    "objectId": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{24}$",
-      "maxLength": 24
-    },
-    "isoDate": {
-      "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
-    },
-    "mediaSize": {
-      "type": "object",
-      "properties": {
-        "h": {
-          "type": "number"
-        },
-        "w": {
-          "type": "number"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri"
+          "activated_at": {"$ref": "#/definitions/activated_at"},
+          "deactivated_at": {"$ref": "#/definitions/deactivated_at"},
+          "enabled": {"$ref": "#/definitions/enabled"},
+          "external_links": {"$ref": "#/definitions/external_links"},
+          "external_refs": {"$ref": "#/definitions/external_refs"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "is_active": {"$ref": "#/definitions/is_active"},
+          "is_stationary": {"$ref": "#/definitions/is_stationary"},
+          "media": {"$ref": "#/definitions/media"},
+          "members": {"$ref": "#/definitions/members"},
+          "name": {"$ref": "#/definitions/name"},
+          "organization_id": {"$ref": "#/definitions/organization_id"},
+          "place_id": {"$ref": "#/definitions/place_id"},
+          "slug": {"$ref": "#/definitions/slug"},
+          "station_type": {"$ref": "#/definitions/station_type"},
+          "thing_ids": {"$ref": "#/definitions/thing_ids"},
+          "time_zone": {"$ref": "#/definitions/time_zone"},
+          "utc_offset": {"$ref": "#/definitions/utc_offset"}
         }
-      }
+      },
+      "targetSchema": {"rel": "self"}
     },
-    "slugId": {
-      "type": "string",
-      "pattern": "^[a-z0-9-]+$"
+    {
+      "title": "Update station",
+      "description": "Update an existing station.",
+      "rel": "self",
+      "href": "stations/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "enabled",
+        "is_active",
+        "is_stationary",
+        "name",
+        "station_type",
+        "time_zone",
+        "utc_offset"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "activated_at": {"$ref": "#/definitions/activated_at"},
+          "deactivated_at": {"$ref": "#/definitions/deactivated_at"},
+          "enabled": {"$ref": "#/definitions/enabled"},
+          "external_links": {"$ref": "#/definitions/external_links"},
+          "external_refs": {"$ref": "#/definitions/external_refs"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "is_active": {"$ref": "#/definitions/is_active"},
+          "is_stationary": {"$ref": "#/definitions/is_stationary"},
+          "media": {"$ref": "#/definitions/media"},
+          "members": {"$ref": "#/definitions/members"},
+          "name": {"$ref": "#/definitions/name"},
+          "organization_id": {"$ref": "#/definitions/organization_id"},
+          "place_id": {"$ref": "#/definitions/place_id"},
+          "slug": {"$ref": "#/definitions/slug"},
+          "station_type": {"$ref": "#/definitions/station_type"},
+          "thing_ids": {"$ref": "#/definitions/thing_ids"},
+          "time_zone": {"$ref": "#/definitions/time_zone"},
+          "utc_offset": {"$ref": "#/definitions/utc_offset"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove station",
+      "description": "Remove an existing station.",
+      "rel": "self",
+      "href": "stations/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Station info",
+      "description": "Return a specific station.",
+      "rel": "self",
+      "href": "stations/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List stations",
+      "description": "Find one or more stations based on the query parameters.",
+      "rel": "instances",
+      "href": "stations",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
     }
-  },
-  "required": ["enabled", "is_active", "is_stationary", "name", "station_type", "time_zone", "utc_offset"],
-  "additionalProperties": false
+  ]
 }

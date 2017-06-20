@@ -1,0 +1,17 @@
+{
+  "_id": "ts2006-class1",
+  "description": "Vocabulary description.",
+  "label": "Class1",
+  "scheme_id": "ts2006",
+  "terms": [
+    {
+      "definition": "Term 1A definition.",
+      "label": "Term1A"
+    },
+    {
+      "definition": "Term 1B definition.",
+      "label": "Term1B"
+    }
+  ],
+  "vocabulary_type": "class"
+}

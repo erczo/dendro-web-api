@@ -1,14 +1,12 @@
+const commonHooks = require('feathers-hooks-common')
 const globalHooks = require('../../../hooks')
-// const hooks = require('feathers-hooks')
 
 const SCHEMA_NAME = 'station.json'
 
 exports.before = {
   // all: [],
 
-  find: [
-    globalHooks.coerceQuery()
-  ],
+  find: globalHooks.coerceQuery(),
 
   // get: [],
 
@@ -32,11 +30,7 @@ exports.before = {
     }
   ],
 
-  // TODO: Validate with Mongo document validation
-  patch: [
-    globalHooks.timestamp(),
-    globalHooks.coerce()
-  ]
+  patch: commonHooks.disallow('rest')
 
   // remove: []
 }

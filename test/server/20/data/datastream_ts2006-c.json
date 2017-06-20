@@ -1,0 +1,27 @@
+{
+  "datapoints_config": [
+    {
+      "begins_at": "2017-05-28T09:50:23.106Z",
+      "connection": "legacy",
+      "ends_before": "2017-05-28T09:50:23.106Z",
+      "params": {
+        "query": {
+          "datastream_id": 3090,
+          "time_adjust": -28800
+        }
+      },
+      "path": "/datavalues-ucnrs"
+    }
+  ],
+  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.",
+  "enabled": true,
+  "name": "TS2006 C Datastream",
+  "source": "science.dendra.test.ts2006",
+  "source_type": "sensor",
+  "state": "ready",
+  "station_id": "592f155746a1b867a114e064",
+  "tags": [
+    "ts2006_Class1_Term1B",
+    "ts2006_Class2_Term2B"
+  ]
+}

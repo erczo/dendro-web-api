@@ -1,8 +1,8 @@
 'use strict';
 
+const commonHooks = require('feathers-hooks-common'
 // const globalHooks = require('../../../hooks')
-// const hooks = require('feathers-hooks')
-const { errors } = require('feathers-errors');
+);const { errors } = require('feathers-errors');
 
 exports.before = {
   // all: [],
@@ -13,12 +13,12 @@ exports.before = {
     if (hook.app.get('schemaNames').indexOf(hook.id) === -1) {
       throw new errors.NotFound('Page not found');
     }
-  }]
+  }],
 
-  // create: [],
-  // update: [],
-  // patch: [],
-  // remove: []
+  create: commonHooks.disallow(),
+  update: commonHooks.disallow(),
+  patch: commonHooks.disallow(),
+  remove: commonHooks.disallow()
 };
 
 exports.after = {

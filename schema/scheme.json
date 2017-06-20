@@ -1,37 +1,136 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "scheme.json",
+  "title": "Scheme",
+  "description": "A namespace (scheme) for one or more controlled vocabularies.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "type": "string",
-      "maxLength": 50
-    },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+      "$ref": "types.json#/definitions/schemeId"
     },
     "description": {
-      "type": "string"
+      "$ref": "types.json#/definitions/description",
+      "example": "A collection of controlled vocabularies for internal use in the Dendro system."
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "example": "Dendra System Controlled Vocabularies"
+    },
+    "priority" : {
+      "type": "integer",
+      "description": "The importance level when evaluating tagged entities",
+      "example": 1,
+      "minimum": 1,
+      "maximum": 10
     },
     "url": {
-      "type": "string",
-      "format": "uri"
+      "$ref": "types.json#/definitions/url",
+      "example": "http://docs.dendra.science"
     },
     "version": {
-      "type": "string"
-    }
-  },
-  "definitions": {
-    "isoDate": {
       "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
+      "example": "1.0"
     }
   },
-  "required": ["_id", "name"],
-  "additionalProperties": false
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "description": {"$ref": "#/definitions/description"},
+    "name": {"$ref": "#/definitions/name"},
+    "priority": {"$ref": "#/definitions/priority"},
+    "url": {"$ref": "#/definitions/url"},
+    "version": {"$ref": "#/definitions/version"}
+  },
+  "required": [
+    "_id",
+    "name"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create scheme",
+      "description": "Create a new scheme.",
+      "rel": "self",
+      "href": "schemes",
+      "method": "POST",
+      "required": [
+        "_id",
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "_id": {"$ref": "#/definitions/_id"},
+          "description": {"$ref": "#/definitions/description"},
+          "name": {"$ref": "#/definitions/name"},
+          "priority": {"$ref": "#/definitions/priority"},
+          "url": {"$ref": "#/definitions/url"},
+          "version": {"$ref": "#/definitions/version"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update scheme",
+      "description": "Update an existing scheme.",
+      "rel": "self",
+      "href": "schemes/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "description": {"$ref": "#/definitions/description"},
+          "name": {"$ref": "#/definitions/name"},
+          "priority": {"$ref": "#/definitions/priority"},
+          "url": {"$ref": "#/definitions/url"},
+          "version": {"$ref": "#/definitions/version"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove scheme",
+      "description": "Remove an existing scheme.",
+      "rel": "self",
+      "href": "schemes/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Scheme info",
+      "description": "Return a specific scheme.",
+      "rel": "self",
+      "href": "schemes/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List schemes",
+      "description": "Find one or more schemes based on the query parameters.",
+      "rel": "instances",
+      "href": "schemes",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }

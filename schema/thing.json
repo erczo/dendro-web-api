@@ -1,98 +1,220 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "thing.json",
+  "title": "Thing",
+  "description": "An abstract type or physical instance of an instrument or other equipment.",
   "type": "object",
-  "properties": {
+  "definitions": {
     "_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/thingId"
     },
     "attributes": {
-      "type": "object"
-    },
-    "created_at": {
-      "$ref": "#/definitions/isoDate"
-    },
-    "updated_at": {
-      "$ref": "#/definitions/isoDate"
+      "type": "object",
+      "description": "Any custom attributes for the thing",
+      "example": {
+        "operating_range": [-35, 50]
+      }
     },
     "description": {
-      "type": "string"
+      "$ref": "types.json#/definitions/description",
+      "example": "The 107 is a rugged, accurate probe that measures temperature of air, soil, or water from -35° to +50°C. It easily interfaces with most Campbell Scientific dataloggers and can be used in a variety of applications."
     },
     "full_name": {
-      "type": "string"
+      "type": "string",
+      "example": "Campbell Scientific 107-L Temperature Probe"
     },
     "geo": {
-      "type": "object",
-      "properties": {
-        "coordinates": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 3,
-          "items": {
-            "type": "number"
-          }
-        },
-        "type": {
-          "type": "string",
-          "enum": ["Point"]
-        }
-      },
-      "required": ["coordinates", "type"]
+      "$ref": "types.json#/definitions/geoPoint"
     },
     "instance_of_thing_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/thingId",
+      "description": "An abstract thing that this physical instance represents",
+      "example": "592f155746a1b867a114e071"
     },
     "is_abstract": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether this thing is an abstract type or physical instance",
+      "example": false
     },
     "manufacturer": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Campbell Scientific"
+        },
+        "url": {
+          "$ref": "types.json#/definitions/url",
+          "example": "https://www.campbellsci.com"
+        }
+      }
     },
     "method_description": {
-      "type": "string"
+      "$ref": "types.json#/definitions/description",
+      "description": "Describes the method of measurement, including quality control and assurance that it has been subject to",
+      "example": "The 107 consists of a thermistor encapsulated in an epoxy-filled aluminum housing. The housing protects the thermistor allowing the probe to be buried in soil or submerged in water."
     },
     "model": {
-      "type": "string"
+      "type": "string",
+      "description": "The manufacturer's model number",
+      "example": "107-L"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "example": "Campbell 107-L"
     },
     "part_of_thing_id": {
-      "$ref": "#/definitions/objectId"
+      "$ref": "types.json#/definitions/thingId",
+      "description": "A reference to an assembly or larger thing to which this thing belongs",
+      "example": "592f155746a1b867a114e072"
     },
     "serial_number": {
-      "type": "string"
+      "type": "string",
+      "description": "A physical thing's serial number",
+      "example": "1004039"
     },
     "thing_type": {
-      "type": "string"
+      "type": "string",
+      "description": "The specific type of thing (e.g. 'logger', 'probe', 'sensor')",
+      "example": "probe"
     },
     "urls": {
-      "type": "array",
-      "items": {
+      "$ref": "types.json#/definitions/urls",
+      "description": "A list of URLs for the thing (e.g. datasheets or manuals)",
+      "example": [
+        {
+          "label": "Manual",
+          "url": "https://s.campbellsci.com/documents/us/manuals/107.pdf"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "_id": {"$ref": "#/definitions/_id"},
+    "created_at": {"$ref": "types.json#/definitions/createdAt"},
+    "updated_at": {"$ref": "types.json#/definitions/updatedAt"},
+    "attributes": {"$ref": "#/definitions/attributes"},
+    "description": {"$ref": "#/definitions/description"},
+    "full_name": {"$ref": "#/definitions/full_name"},
+    "geo": {"$ref": "#/definitions/geo"},
+    "instance_of_thing_id": {"$ref": "#/definitions/instance_of_thing_id"},
+    "is_abstract": {"$ref": "#/definitions/is_abstract"},
+    "manufacturer": {"$ref": "#/definitions/manufacturer"},
+    "method_description": {"$ref": "#/definitions/method_description"},
+    "model": {"$ref": "#/definitions/model"},
+    "name": {"$ref": "#/definitions/name"},
+    "part_of_thing_id": {"$ref": "#/definitions/part_of_thing_id"},
+    "serial_number": {"$ref": "#/definitions/serial_number"},
+    "thing_type": {"$ref": "#/definitions/thing_type"},
+    "urls": {"$ref": "#/definitions/urls"}
+  },
+  "required": [
+    "is_abstract",
+    "name"
+  ],
+  "additionalProperties": false,
+  "links": [
+    {
+      "title": "Create thing",
+      "description": "Create a new thing.",
+      "rel": "self",
+      "href": "things",
+      "method": "POST",
+      "required": [
+        "is_abstract",
+        "name"
+      ],
+      "schema": {
         "type": "object",
         "properties": {
-          "label": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
+          "attributes": {"$ref": "#/definitions/attributes"},
+          "description": {"$ref": "#/definitions/description"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "instance_of_thing_id": {"$ref": "#/definitions/instance_of_thing_id"},
+          "is_abstract": {"$ref": "#/definitions/is_abstract"},
+          "manufacturer": {"$ref": "#/definitions/manufacturer"},
+          "method_description": {"$ref": "#/definitions/method_description"},
+          "model": {"$ref": "#/definitions/model"},
+          "name": {"$ref": "#/definitions/name"},
+          "part_of_thing_id": {"$ref": "#/definitions/part_of_thing_id"},
+          "serial_number": {"$ref": "#/definitions/serial_number"},
+          "thing_type": {"$ref": "#/definitions/thing_type"},
+          "urls": {"$ref": "#/definitions/urls"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Update thing",
+      "description": "Update an existing thing.",
+      "rel": "self",
+      "href": "things/{#/definitions/_id}",
+      "method": "PUT",
+      "required": [
+        "is_abstract",
+        "name"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "attributes": {"$ref": "#/definitions/attributes"},
+          "description": {"$ref": "#/definitions/description"},
+          "full_name": {"$ref": "#/definitions/full_name"},
+          "geo": {"$ref": "#/definitions/geo"},
+          "instance_of_thing_id": {"$ref": "#/definitions/instance_of_thing_id"},
+          "is_abstract": {"$ref": "#/definitions/is_abstract"},
+          "manufacturer": {"$ref": "#/definitions/manufacturer"},
+          "method_description": {"$ref": "#/definitions/method_description"},
+          "model": {"$ref": "#/definitions/model"},
+          "name": {"$ref": "#/definitions/name"},
+          "part_of_thing_id": {"$ref": "#/definitions/part_of_thing_id"},
+          "serial_number": {"$ref": "#/definitions/serial_number"},
+          "thing_type": {"$ref": "#/definitions/thing_type"},
+          "urls": {"$ref": "#/definitions/urls"}
+        }
+      },
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Remove thing",
+      "description": "Remove an existing thing.",
+      "rel": "self",
+      "href": "things/{#/definitions/_id}",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "Thing info",
+      "description": "Return a specific thing.",
+      "rel": "self",
+      "href": "things/{#/definitions/_id}",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },
+    {
+      "title": "List things",
+      "description": "Find one or more things based on the query parameters.",
+      "rel": "instances",
+      "href": "things",
+      "method": "GET",
+      "schema": {
+        "$ref": "types.json#/definitions/queryParameters"
+      },
+      "targetSchema": {
+        "allOf": [
+          {"$ref": "types.json#/definitions/paginationMeta"},
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {"rel": "self"}
+              }
+            }
           }
-        },
-        "required": ["url"]
+        ]
       }
     }
-  },
-  "definitions": {
-    "objectId": {
-      "type": "string",
-      "pattern": "^[a-fA-F0-9]{24}$",
-      "maxLength": 24
-    },
-    "isoDate": {
-      "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[T][0-9]{2}:[0-9]{2}:[0-9]{2}|.|[0-9]{0,3}Z$"
-    }
-  },
-  "required": ["is_abstract", "name"],
-  "additionalProperties": false
+  ]
 }

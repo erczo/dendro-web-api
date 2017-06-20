@@ -1,0 +1,14 @@
+{
+  "_id": "ts2002-vocabulary",
+  "description": "Vocabulary description.",
+  "label": "Vocabulary",
+  "scheme_id": "ts2002",
+  "terms": [
+    {
+      "abbreviation": "abbr",
+      "definition": "Term definition.",
+      "label": "TermLabel",
+      "name": "Term Name"
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 'use strict';
 
+const commonHooks = require('feathers-hooks-common'
 // const globalHooks = require('../../../hooks')
-// const hooks = require('feathers-hooks')
-const { errors } = require('feathers-errors');
+);const { errors } = require('feathers-errors'
 
 // TODO: Allow POST request for longer query params?
 
-exports.before = {
+);exports.before = {
   // all: [],
 
   find: [hook => {
@@ -21,13 +21,13 @@ exports.before = {
   }, hook => {
     const datastreams = hook.params.datastreams;
     if (!Array.isArray(datastreams)) throw new errors.BadRequest('Expected datastreams');
-  }]
+  }],
 
-  // get: [],
-  // create: [],
-  // update: [],
-  // patch: [],
-  // remove: []
+  get: commonHooks.disallow(),
+  create: commonHooks.disallow(),
+  update: commonHooks.disallow(),
+  patch: commonHooks.disallow(),
+  remove: commonHooks.disallow()
 };
 
 exports.after = {

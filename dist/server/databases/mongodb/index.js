@@ -10,7 +10,7 @@ module.exports = function () {
     if (mongodb.defaultLogger) {
       // Configure logging
       const defaultLogger = mongodb.defaultLogger;
-      if (defaultLogger.level) Logger.setLevel(defaultLogger.level);
+      if (defaultLogger.level) Logger.setLevel(defaultLogger.level
 
       // Set our own logger
       // TODO: Replace logger with winston; handle this centrally
@@ -18,6 +18,7 @@ module.exports = function () {
       // Logger.setCurrentLogger((msg, context) => {
       //   console.log(msg, context)
       // })
+      );
     }
 
     if (mongodb.metadata) app.configure(require('./metadata'));

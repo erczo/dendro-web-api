@@ -2,20 +2,19 @@
 
 const feathersQueryFilters = require('feathers-query-filters');
 const hooks = require('./hooks');
-const { Interval } = require('../../lib/utils');
+const { Interval } = require('../../lib/utils'
 
 // Reasonable min and max dates to perform low-level querying
 // NOTE: Didn't use min/max integer since db date conversion could choke
-const MIN_TIME = Date.UTC(1000, 0, 1);
-const MAX_TIME = Date.UTC(3000, 0, 1);
+);const MIN_TIME = Date.UTC(1000, 0, 1);
+const MAX_TIME = Date.UTC(3000, 0, 1
 
 /**
  * High-level service that provides a standard facade to retrieve datapoints.
  *
- * This service forwards 'find' requests to one or more low-level services
- * registered under datapoints_config.
+ * This service forwards 'find' requests to one or more low-level services registered under datapoints_config.
  */
-class Service {
+);class Service {
   constructor(options) {
     this.paginate = options.paginate || {};
   }
@@ -29,15 +28,14 @@ class Service {
     /*
       Standard Feathers service preamble, adapted from feathers-sequelize.
      */
-
     const paginate = params && typeof params.paginate !== 'undefined' ? params.paginate : this.paginate;
     const getFilter = feathersQueryFilters(params.query, paginate);
     const filters = getFilter.filters;
     const query = getFilter.query;
 
     /*
-      Efficiently merge config instances in a linear traversal by evaluating
-      each instance's date/time interval [begins_at, ends_before).
+      Efficiently merge config instances in a linear traversal by evaluating each instance's date/time
+      interval [begins_at, ends_before).
        Steps:
       1. Filter instances based on required fields, enabled, etc.
       2. Convert begins_at/ends_before to time; deal with nulls
@@ -70,7 +68,8 @@ class Service {
       if (inst.endsBefore <= inst.beginsAt) {
         // Exclude: inverted interval
       } else if (stack.length === 0) {
-        stack.push(inst); // Init stack
+        stack.push(inst // Init stack
+        );
       } else {
         const top = stack[stack.length - 1];
 
@@ -86,10 +85,10 @@ class Service {
           stack.push(inst);
         }
       }
-    });
+    }
 
     // Points can only be sorted by 'time' (default DESC)
-    filters.$sort = {
+    );filters.$sort = {
       time: typeof filters.$sort === 'object' && typeof filters.$sort.time !== 'undefined' ? filters.$sort.time : -1
     };
     config = filters.$sort.time === -1 ? stack.reverse() : stack;
@@ -97,7 +96,6 @@ class Service {
     /*
       Construct a query interval based on 'time' query field.
      */
-
     const queryInterval = new Interval(MIN_TIME, MAX_TIME, false, true);
 
     if (typeof query.time === 'object') {
@@ -121,10 +119,9 @@ class Service {
     }
 
     /*
-      Iterate over config instances; set-up a promise chain to query low-level
-      services where the query interval intersects the instance's interval.
+      Iterate over config instances; set up a promise chain to query low-level services where the query interval
+      intersects the instance's interval.
      */
-
     let result = Promise.resolve({
       limit: filters.$limit,
       data: []
@@ -136,10 +133,9 @@ class Service {
 
       result = result.then(outerRes => {
         /*
-          Construct a low-level query using the clamped interval and config
-          instance fields. Do this only if we haven't reached our limit.
+          Construct a low-level query using the clamped interval and config instance fields.
+           Do this only if we haven't reached our limit.
          */
-
         if (outerRes.data.length >= filters.$limit) return outerRes;
 
         // NOTE: The following may modify the in-memory datastream object
@@ -149,6 +145,7 @@ class Service {
         params.query.$sort = filters.$sort;
         params.query.compact = true;
         if (query.lat) params.query.lat = query.lat;
+        if (query.lon) params.query.lon = query.lon;
         if (query.lng) params.query.lng = query.lng;
         params.query.time = {};
         params.query.time[interval.leftOpen ? '$gt' : '$gte'] = new Date(interval.start);
@@ -176,10 +173,10 @@ module.exports = function () {
     if (services.datapoint) {
       app.use('/datapoints', new Service({
         paginate: services.datapoint.paginate
-      }));
+      })
 
       // Get the wrapped service object, bind hooks
-      const datapointService = app.service('/datapoints');
+      );const datapointService = app.service('/datapoints');
 
       datapointService.before(hooks.before);
       datapointService.after(hooks.after);

@@ -1,0 +1,13 @@
+{
+  "_id": "met2008-centimeter",
+  "convertible_to_uom_ids": [
+    "imp2008-foot"
+  ],
+  "library_config": {
+    "mathjs": {
+      "round_n": 1,
+      "unit_name": "cm"
+    }
+  },
+  "som_id": "met2008"
+}

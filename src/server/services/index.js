@@ -4,7 +4,7 @@ module.exports = (function () {
   return function () {
     const app = this
     const serviceNames = [
-      'authentication',
+      // 'authentication',
       'datapoint_lookup', // Route must precede datapoint
       'datapoint',
       'datastream_lookup', // Route must precede datastream
@@ -15,10 +15,12 @@ module.exports = (function () {
       'person',
       'place',
       'scheme',
+      'som',
       'station',
       'system_schema',
       'system_time',
       'thing',
+      'uom',
       'vocabulary'
     ]
 

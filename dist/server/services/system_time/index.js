@@ -26,10 +26,10 @@ module.exports = function () {
   return function () {
     const app = this;
 
-    app.use('/system/time', new Service());
+    app.use('/system/time', new Service()
 
     // Get the wrapped service object, bind hooks
-    const timeService = app.service('/system/time');
+    );const timeService = app.service('/system/time');
 
     timeService.before(hooks.before);
     timeService.after(hooks.after);

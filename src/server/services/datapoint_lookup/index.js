@@ -17,6 +17,7 @@ class Service {
         // Include lightweight datastream metadata
         obj._id = datastream._id
         if (datastream.attributes) obj.attributes = datastream.attributes
+        if (datastream.source) obj.source = datastream.source
         if (datastream.station_id) obj.station_id = datastream.station_id
         if (datastream.tags) obj.tags = datastream.tags
         obj.datapoints = res

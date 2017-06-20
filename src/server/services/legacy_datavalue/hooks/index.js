@@ -1,13 +1,11 @@
+const commonHooks = require('feathers-hooks-common')
 const globalHooks = require('../../../hooks')
-const hooks = require('feathers-hooks')
 const {treeMap} = require('../../../lib/utils')
 
 exports.before = {
   // all: [],
 
   find: [
-    globalHooks.parseBoolQuery('compact'),
-    globalHooks.parseIntQuery('time_adjust'),
     globalHooks.coerceQuery(),
 
     (hook) => {
@@ -37,14 +35,14 @@ exports.before = {
       }
     },
 
-    hooks.removeQuery('compact', 'time', 'time_adjust')
-  ]
+    commonHooks.removeQuery('compact', 'time', 'time_adjust')
+  ],
 
-  // get: [],
-  // create: [],
-  // update: [],
-  // patch: [],
-  // remove: []
+  get: commonHooks.disallow(),
+  create: commonHooks.disallow(),
+  update: commonHooks.disallow(),
+  patch: commonHooks.disallow(),
+  remove: commonHooks.disallow()
 }
 
 exports.after = {
@@ -59,7 +57,7 @@ exports.after = {
     const count = 20
     const data = hook.result.data
     const mapTask = function (start) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setImmediate(() => {
           const len = Math.min(start + count, data.length)
           for (let i = start; i < len; i++) {
