@@ -137,21 +137,20 @@ class Service {
          */
         if (outerRes.data.length >= filters.$limit) return outerRes
 
-        // NOTE: The following may modify the in-memory datastream object
-        const params = typeof inst.params === 'object' ? inst.params : {}
-        if (typeof params.query !== 'object') params.query = {}
-        params.query.$limit = filters.$limit - outerRes.data.length
-        params.query.$sort = filters.$sort
-        params.query.compact = true
-        if (query.lat) params.query.lat = query.lat
-        if (query.lon) params.query.lon = query.lon
-        if (query.lng) params.query.lng = query.lng
-        params.query.time = {}
-        params.query.time[interval.leftOpen ? '$gt' : '$gte'] = new Date(interval.start)
-        params.query.time[interval.rightOpen ? '$lt' : '$lte'] = new Date(interval.end)
+        const p = Object.assign({}, inst.params)
+        const q = p.query = Object.assign({}, p.query)
+        q.$limit = filters.$limit - outerRes.data.length
+        q.$sort = filters.$sort
+        q.compact = true
+        if (query.lat) q.lat = query.lat
+        if (query.lon) q.lon = query.lon
+        if (query.lng) q.lng = query.lng
+        q.time = {}
+        q.time[interval.leftOpen ? '$gt' : '$gte'] = new Date(interval.start)
+        q.time[interval.rightOpen ? '$lt' : '$lte'] = new Date(interval.end)
 
         // Call the low-level service!
-        return inst.connection.app.service(inst.path).find(params).then(innerRes => {
+        return inst.connection.app.service(inst.path).find(p).then(innerRes => {
           // Combine the results
           // TODO: Not the most efficient, optimize somehow?
           if (Array.isArray(innerRes.data)) outerRes.data = outerRes.data.concat(innerRes.data)

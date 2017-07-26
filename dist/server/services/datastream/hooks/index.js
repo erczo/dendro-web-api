@@ -304,9 +304,9 @@ exports.before = {
 
   // get: [],
 
-  create: [globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce(), globalHooks.uniqueArray('data.tags'), computeAttributesInfo(), computeTagsInfo(), computeHashes()],
+  create: [commonHooks.discard('_computed', '_elapsed', '_include'), globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce(), globalHooks.uniqueArray('data.tags'), computeAttributesInfo(), computeTagsInfo(), computeHashes()],
 
-  update: [globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce(), globalHooks.uniqueArray('data.tags'), computeAttributesInfo(), computeTagsInfo(), computeHashes(), hook => {
+  update: [commonHooks.discard('_computed', '_elapsed', '_include'), globalHooks.validate(SCHEMA_NAME), globalHooks.timestamp(), globalHooks.coerce(), globalHooks.uniqueArray('data.tags'), computeAttributesInfo(), computeTagsInfo(), computeHashes(), hook => {
     // TODO: Optimize with find/$select to return fewer fields?
     return hook.app.service('/datastreams').get(hook.id).then(doc => {
       hook.data.created_at = doc.created_at;

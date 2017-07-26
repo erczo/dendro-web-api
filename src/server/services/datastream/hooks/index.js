@@ -324,6 +324,7 @@ exports.before = {
   // get: [],
 
   create: [
+    commonHooks.discard('_computed', '_elapsed', '_include'),
     globalHooks.validate(SCHEMA_NAME),
     globalHooks.timestamp(),
     globalHooks.coerce(),
@@ -335,6 +336,7 @@ exports.before = {
   ],
 
   update: [
+    commonHooks.discard('_computed', '_elapsed', '_include'),
     globalHooks.validate(SCHEMA_NAME),
     globalHooks.timestamp(),
     globalHooks.coerce(),

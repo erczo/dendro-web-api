@@ -1,4 +1,13 @@
 {
+  "_computed": [
+    "averageStars"
+  ],
+  "_elapsed": {
+    "authorItem": 321973
+  },
+  "_include": [
+    "authorItem"
+  ],
   "attributes": {
     "height": {
       "unit_tag": "ts2003_Unit_Meter",
