@@ -11,8 +11,6 @@ describe('Service /organizations', function () {
         return db.collection('organizations').remove({email: 'org_test_one@test.dendra.science'})
       })
     }
-
-    this.skip()
   })
 
   after(function () {

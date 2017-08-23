@@ -8,13 +8,13 @@
  * @module lib/utils
  */
 
-const crypto = require('crypto'
+const crypto = require('crypto');
 
 /**
  * Basic interval class; adapted from:
  * http://docs.sympy.org/latest/modules/sets.html
  */
-);class Interval {
+class Interval {
   static empty() {
     return new Interval(0, 0, true, true);
   }
@@ -80,10 +80,10 @@ exports.asyncHashDigest = asyncHashDigest;
 function treeMap(obj, callback, path = '') {
   if (Array.isArray(obj)) return obj.map((el, i) => {
     return treeMap(el, callback, `${path}/${i}`);
-  }
+  });
 
   // We only want to map leaf properties of data objects
-  );if (obj.toString() === '[object Object]') {
+  if (obj.toString() === '[object Object]') {
     obj = Object.assign({}, obj);
     Object.keys(obj).forEach(key => {
       obj[key] = treeMap(obj[key], callback, `${path}/${key}`);

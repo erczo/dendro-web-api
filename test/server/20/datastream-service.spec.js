@@ -93,8 +93,6 @@ describe('Service /datastreams', function () {
         return main.app.service('/uoms').create(doc)
       })
     }
-
-    this.skip()
   })
 
   after(function () {

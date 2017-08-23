@@ -1,9 +1,9 @@
 'use strict';
 
-const commonHooks = require('feathers-hooks-common'
+const commonHooks = require('feathers-hooks-common');
 // const globalHooks = require('../../../hooks')
 
-);exports.before = {
+exports.before = {
   // all: [],
 
   find: commonHooks.disallow(),

@@ -2,19 +2,19 @@
 
 const feathersQueryFilters = require('feathers-query-filters');
 const hooks = require('./hooks');
-const { Interval } = require('../../lib/utils'
+const { Interval } = require('../../lib/utils');
 
 // Reasonable min and max dates to perform low-level querying
 // NOTE: Didn't use min/max integer since db date conversion could choke
-);const MIN_TIME = Date.UTC(1000, 0, 1);
-const MAX_TIME = Date.UTC(3000, 0, 1
+const MIN_TIME = Date.UTC(1000, 0, 1);
+const MAX_TIME = Date.UTC(3000, 0, 1);
 
 /**
  * High-level service that provides a standard facade to retrieve datapoints.
  *
  * This service forwards 'find' requests to one or more low-level services registered under datapoints_config.
  */
-);class Service {
+class Service {
   constructor(options) {
     this.paginate = options.paginate || {};
   }
@@ -68,8 +68,7 @@ const MAX_TIME = Date.UTC(3000, 0, 1
       if (inst.endsBefore <= inst.beginsAt) {
         // Exclude: inverted interval
       } else if (stack.length === 0) {
-        stack.push(inst // Init stack
-        );
+        stack.push(inst); // Init stack
       } else {
         const top = stack[stack.length - 1];
 
@@ -85,10 +84,10 @@ const MAX_TIME = Date.UTC(3000, 0, 1
           stack.push(inst);
         }
       }
-    }
+    });
 
     // Points can only be sorted by 'time' (default DESC)
-    );filters.$sort = {
+    filters.$sort = {
       time: typeof filters.$sort === 'object' && typeof filters.$sort.time !== 'undefined' ? filters.$sort.time : -1
     };
     config = filters.$sort.time === -1 ? stack.reverse() : stack;
@@ -172,10 +171,10 @@ module.exports = function () {
     if (services.datapoint) {
       app.use('/datapoints', new Service({
         paginate: services.datapoint.paginate
-      })
+      }));
 
       // Get the wrapped service object, bind hooks
-      );const datapointService = app.service('/datapoints');
+      const datapointService = app.service('/datapoints');
 
       datapointService.before(hooks.before);
       datapointService.after(hooks.after);

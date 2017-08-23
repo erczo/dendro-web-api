@@ -105,8 +105,6 @@ describe('Service /datastreams/lookup', function () {
         _id7bMeter = doc._id
       })
     }
-
-    this.skip()
   })
 
   after(function () {

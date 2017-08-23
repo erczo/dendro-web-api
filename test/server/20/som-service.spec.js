@@ -11,8 +11,6 @@ describe('Service /soms', function () {
         return db.collection('soms').remove({_id: 'imp2004'})
       })
     }
-
-    this.skip()
   })
 
   after(function () {

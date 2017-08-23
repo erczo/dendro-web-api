@@ -17,10 +17,10 @@ class Service {
         // Include datastream metadata
         const obj = Object.assign({}, datastream, {
           datapoints: res
-        }
+        });
 
         // Remove internal fields
-        );delete obj.datapoints_config;
+        delete obj.datapoints_config;
 
         return obj;
       });
@@ -34,10 +34,10 @@ module.exports = function () {
   return function () {
     const app = this;
 
-    app.use('/datapoints/lookup', new Service()
+    app.use('/datapoints/lookup', new Service());
 
     // Get the wrapped service object, bind hooks
-    );const lookupService = app.service('/datapoints/lookup');
+    const lookupService = app.service('/datapoints/lookup');
 
     lookupService.before(hooks.before);
     lookupService.after(hooks.after);

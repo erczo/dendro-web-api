@@ -1,6 +1,4 @@
-// TODO: Define rules
-// Example: https://gist.github.com/nkbt/9efd4facb391edbf8048
-
+// SEE: http://eslint.org/docs/user-guide/configuring
 module.exports = {
   env: {
     'node': true

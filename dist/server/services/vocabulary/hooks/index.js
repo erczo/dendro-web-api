@@ -22,10 +22,10 @@ exports.before = {
     });
   }],
 
-  patch: commonHooks.disallow('rest'
+  patch: commonHooks.disallow('rest')
 
   // remove: []
-  ) };
+};
 
 exports.after = {
   // all: [],

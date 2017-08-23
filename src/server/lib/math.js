@@ -10,6 +10,7 @@
 import core from 'mathjs/core'
 
 const math = core.create()
+math.import(require('mathjs/lib/type/complex'))
 math.import(require('mathjs/lib/type/unit'))
 math.import(require('mathjs/lib/function/unit'))
 math.import(require('mathjs/lib/function/arithmetic/round'))

@@ -13,10 +13,10 @@ module.exports = function () {
         app.use('/things', service({
           Model: db.collection('things'),
           paginate: databases.mongodb.metadata.paginate
-        })
+        }));
 
         // Get the wrapped service object, bind hooks
-        );const thingService = app.service('/things');
+        const thingService = app.service('/things');
 
         thingService.before(hooks.before);
         thingService.after(hooks.after);

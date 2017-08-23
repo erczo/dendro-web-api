@@ -202,8 +202,6 @@ describe('Service /datapoints and /datapoints/lookup', function () {
         _idDatastreamPref = doc._id
       })
     }
-
-    this.skip()
   })
 
   after(function () {

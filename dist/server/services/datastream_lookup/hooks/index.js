@@ -1,11 +1,11 @@
 'use strict';
 
 const commonHooks = require('feathers-hooks-common');
-const globalHooks = require('../../../hooks'
+const globalHooks = require('../../../hooks');
 
 // TODO: Allow POST request for longer query params?
 
-);exports.before = {
+exports.before = {
   // all: [],
 
   find: [globalHooks.splitList('params.query._id'), globalHooks.splitList('params.query.source'), globalHooks.splitList('params.query.station_id'), globalHooks.coerceQuery()],

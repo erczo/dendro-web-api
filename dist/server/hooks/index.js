@@ -20,10 +20,10 @@ const url = require('url');
 const { errors } = require('feathers-errors');
 const { getByDot, setByDot } = require('feathers-hooks-common');
 const { treeMap } = require('../lib/utils');
-const { ObjectID } = require('mongodb'
+const { ObjectID } = require('mongodb');
 
 // Regular expressions for data type detection
-);const BOOL_REGEX = /^(false|true)$/i;
+const BOOL_REGEX = /^(false|true)$/i;
 const ID_PATH_REGEX = /\/\w*_id(s)?(\/.*)?$/;
 const ID_STRING_REGEX = /^[0-9a-f]{24}$/i;
 const ISO_DATE_REGEX = /^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.([0-9]{3}))?Z$/i;

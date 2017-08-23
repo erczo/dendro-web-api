@@ -27,21 +27,21 @@ const schemas = require('./schemas');
 const services = require('./services');
 const middleware = require('./middleware');
 
-const app = feathers
+const app = feathers();
 
 // TODO: Winston is configured in middleware; deal with this
 // TODO: Replace logger with winston
-();const log = console;
+const log = console;
 
 // Configure
-app.configure(configuration()
+app.configure(configuration());
 
 // Feathers setup
-);app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(connections).configure(databases).configure(schemas).configure(services).configure(middleware
+app.use(compress()).options('*', cors()).use(cors()).use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true })).configure(hooks()).configure(rest()).configure(socketio()).configure(connections).configure(databases).configure(schemas).configure(services).configure(middleware);
 
 // TODO: Handle SIGTERM gracefully for Docker
 // SEE: http://joseoncode.com/2014/07/21/graceful-shutdown-in-node-dot-js/
-);app.set('serverReady', Promise.resolve(app.get('middlewareReady')).then(() => {
+app.set('serverReady', Promise.resolve(app.get('middlewareReady')).then(() => {
   const port = app.get('port');
   const server = app.listen(port);
 

@@ -11,8 +11,6 @@ describe('Service /schemes', function () {
         return db.collection('schemes').remove({_id: 'ts2001'})
       })
     }
-
-    this.skip()
   })
 
   after(function () {

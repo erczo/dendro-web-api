@@ -21,10 +21,10 @@ function getTagsInfo(tags, app) {
      */
   };let step = Promise.resolve();
   tags.forEach(tag => {
-    const parts = tag.split('_'
+    const parts = tag.split('_');
 
     // We only support tags in the format <schemeId>_<vocabularyLabel>_<termLabel>
-    );if (parts.length !== 3) return;
+    if (parts.length !== 3) return;
 
     const [schemeId, vLabel, tLabel] = parts;
     let scheme;
@@ -47,9 +47,9 @@ function getTagsInfo(tags, app) {
       if (!res || !res.data || res.data.length < 1) throw new errors.BadRequest(`No vocabulary or term found for tag '${tag}'`);
 
       const vocab = res.data[0];
-      const term = vocab.terms.find(t => t.label === tLabel // Should exist since data was found
+      const term = vocab.terms.find(t => t.label === tLabel); // Should exist since data was found
 
-      );if (!term) throw new errors.BadRequest(`No term found for tag '${tag}'`);
+      if (!term) throw new errors.BadRequest(`No term found for tag '${tag}'`);
 
       const resolved = {};
 
@@ -61,10 +61,10 @@ function getTagsInfo(tags, app) {
       resolved.vocabulary_label = vocab.label;
       if (vocab.vocabulary_type) resolved.vocabulary_type = vocab.vocabulary_type;
 
-      info.resolved_terms.push(resolved
+      info.resolved_terms.push(resolved);
 
       // The predominant unit designation; based on the scheme with the highest priority
-      );if (vocab.vocabulary_type === 'unit' && (!info.unit_term || info.unit_term.scheme_priority > resolved.scheme_priority)) {
+      if (vocab.vocabulary_type === 'unit' && (!info.unit_term || info.unit_term.scheme_priority > resolved.scheme_priority)) {
         info.unit_tag = tag;
         info.unit_term = resolved;
       }
@@ -244,12 +244,12 @@ function computeHashes() {
           return s;
         }, {
           priority: 999 // Reasonable upper limit
-        }
+        });
 
         /*
           Iterate over scheme_refs; set up a promise chain to compute a hash for each scheme's tags.
          */
-        );schemeRefs.forEach(ref => {
+        schemeRefs.forEach(ref => {
           step = step.then(() => {
             // While we're processing this scheme, see if we need to obtain tags for the entity hash
             if (typeof entTagData !== 'string' && ref._id === entScheme._id) {
@@ -314,10 +314,10 @@ exports.before = {
     });
   }],
 
-  patch: commonHooks.disallow('rest'
+  patch: commonHooks.disallow('rest')
 
   // remove: []
-  ) };
+};
 
 const uomSchema = {
   include: {

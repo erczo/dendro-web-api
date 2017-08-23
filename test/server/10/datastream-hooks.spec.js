@@ -99,8 +99,6 @@ describe('Datastream hooks', function () {
         return main.app.service('/vocabularies').create(doc)
       })
     }
-
-    this.skip()
   })
 
   after(function () {

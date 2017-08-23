@@ -13,16 +13,16 @@ module.exports = function () {
         const mongoService = service({
           Model: db.collection('soms'),
           paginate: databases.mongodb.metadata.paginate
-        }
+        });
 
         // HACK: Monkey-patch the service to allow for string IDs
-        );mongoService._objectifyId = id => {
+        mongoService._objectifyId = id => {
           return id;
         };
-        app.use('/soms', mongoService
+        app.use('/soms', mongoService);
 
         // Get the wrapped service object, bind hooks
-        );const somService = app.service('/soms');
+        const somService = app.service('/soms');
 
         somService.before(hooks.before);
         somService.after(hooks.after);

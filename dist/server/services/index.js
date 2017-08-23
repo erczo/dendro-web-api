@@ -17,16 +17,16 @@ module.exports = function () {
     serviceNames.forEach(name => {
       ready = ready.then(() => {
         app.set('serviceReady', true);
-        app.configure(require(path.join(__dirname, name))
+        app.configure(require(path.join(__dirname, name)));
 
         // Each service configuration can optionally return a promise for
         // readiness via an app setting
-        );return app.get('serviceReady');
+        return app.get('serviceReady');
       });
-    }
+    });
 
     // All services are mounted when the last service promise is resolved;
     // note that middleware is dependent on fulfillment of this promise
-    );app.set('servicesReady', ready);
+    app.set('servicesReady', ready);
   };
 }();

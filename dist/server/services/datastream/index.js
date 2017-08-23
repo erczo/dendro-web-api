@@ -13,10 +13,10 @@ module.exports = function () {
         app.use('/datastreams', service({
           Model: db.collection('datastreams'),
           paginate: databases.mongodb.metadata.paginate
-        })
+        }));
 
         // Get the wrapped service object, bind hooks
-        );const datastreamService = app.service('/datastreams');
+        const datastreamService = app.service('/datastreams');
 
         datastreamService.before(hooks.before);
         datastreamService.after(hooks.after);

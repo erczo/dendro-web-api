@@ -2,7 +2,7 @@
 
 const feathersQueryFilters = require('feathers-query-filters');
 const feathersSequelizeUtils = require('feathers-sequelize/lib/utils');
-const hooks = require('./hooks'
+const hooks = require('./hooks');
 
 /**
  * Low-level service to retrieve legacy datavalues.
@@ -11,7 +11,7 @@ const hooks = require('./hooks'
  * feathers-sequelize service uses findAndCount which adds the overhead of
  * SQL COUNT for every query.
  */
-);class Service {
+class Service {
   constructor(options) {
     this.paginate = options.paginate || {};
     this.Model = options.Model;
@@ -59,10 +59,10 @@ module.exports = function () {
           app.use(path, new Service({
             Model: model,
             paginate: databases.mysql.legacy.paginate
-          })
+          }));
 
           // Get the wrapped service object, bind hooks
-          );const service = app.service(path);
+          const service = app.service(path);
 
           service.before(hooks.before);
           service.after(hooks.after);

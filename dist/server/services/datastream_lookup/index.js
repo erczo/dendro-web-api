@@ -114,10 +114,10 @@ module.exports = function () {
     if (services.datastream_lookup) {
       app.use('/datastreams/lookup', new Service({
         limit: services.datastream_lookup.limit
-      })
+      }));
 
       // Get the wrapped service object, bind hooks
-      );const lookupService = app.service('/datastreams/lookup');
+      const lookupService = app.service('/datastreams/lookup');
 
       lookupService.before(hooks.before);
       lookupService.after(hooks.after);

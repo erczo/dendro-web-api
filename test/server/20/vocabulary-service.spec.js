@@ -11,8 +11,6 @@ describe('Service /vocabularies', function () {
         return db.collection('vocabularies').remove({_id: 'ts2002-vocabulary'})
       })
     }
-
-    this.skip()
   })
 
   after(function () {
